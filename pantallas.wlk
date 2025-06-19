@@ -1,5 +1,5 @@
 object menu {
-  method image() = "menuInicial.png"
+  method image() = "menuInicial1.png"
   method position() = game.origin()
 }
 

@@ -12,7 +12,7 @@ object juego{
 		game.cellSize(15)
 		game.width(40)
 		game.height(40)	
-  		game.title("Guerra de palabras")
+  		game.title("bombardeo de letras") // me gusta mas
 		game.addVisualCharacter(menu)  	
 		keyboard.f().onPressDo({self.modoFacil()})
 		keyboard.d().onPressDo({self.modoDificil()})
