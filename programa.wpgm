@@ -1,0 +1,8 @@
+import wollok.game.*
+import juego.*
+import teclas.*
+
+program Game {
+	juego.configurar()
+	game.start()
+}
