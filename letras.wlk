@@ -2,7 +2,7 @@ class Letras{
     
     var property position
     var property image
-    
+    var property letra 
 
     method caer(){
         if (position.y() < game.height() -1){
@@ -18,6 +18,10 @@ class Letras{
         // hacer que reste una vida
         game.removeTickEvent("caida")
         
+    }
+
+    method destruir(){
+        keyboard.letter(letra).onPressDo(game.removeVisual(self))
     }
 
     method iniciarCaida(tiempo){
