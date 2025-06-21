@@ -70,14 +70,14 @@ object juego{
 
 		method generarLetraAleatoria(){		
 		var letra = abecedario.anyOne()
-		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne(), 36), image = letra+".png", letra = letra)
+		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne(), 36), image = letra+"u.png", letra = letra)
 		game.addVisual(nuevaLetra)
 		if(dificultad == facil){
 			nuevaLetra.iniciarCaida(velFacil)
 		}else{
 			nuevaLetra.iniciarCaida(velDificil)
 		}
-		keyboard.letter(letra).onPressDo({ nuevaLetra.destruir()})
+		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()})
 	
 	}
 
@@ -86,7 +86,7 @@ object juego{
 	}
 
 	method posicionesPosibles(){
-		return #{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35}
+		return #{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34}
 	}
 
 }

@@ -7,7 +7,7 @@ object menu {
 }
 
 object facil{
-    method image() = "mFacil.png"
+    method image() = "modoFacil.png"
     method position() = game.origin()
 
     method configuracion() {
@@ -25,7 +25,7 @@ object facil{
 }
 
 object dificil {    
-    method image() = "Dificil1.png"
+    method image() = "modoDificil.png"
     method position() = game.origin()    
 }
 
