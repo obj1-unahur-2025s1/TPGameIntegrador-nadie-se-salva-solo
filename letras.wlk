@@ -21,8 +21,7 @@ class Letras{
     }
 
     method destruir(){
-        keyboard.letter(letra).onPressDo({ game.removeVisual(self)})
-        
+        game.removeVisual(self)
     }
 
     method iniciarCaida(tiempo){
