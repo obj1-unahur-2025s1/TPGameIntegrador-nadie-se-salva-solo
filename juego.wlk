@@ -73,7 +73,6 @@ object juego{
     }
 
 		method generarLetraAleatoria(){		
-		//const nuevaLetra = new Letras(position= game.at(16, 36), image = "E1.png")
 		var letra = abecedario.anyOne()
 		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne(), 36), image = letra+".png", letra = letra)
 		game.addVisual(nuevaLetra)
@@ -82,7 +81,7 @@ object juego{
 		}else{
 			nuevaLetra.iniciarCaida(velDificil)
 		}
-		keyboard.letter(letra).onPressDo(game.removeVisual(letra))
+		keyboard.letter(letra).onPressDo({ game.removeVisual(nuevaLetra)})
 
 		console.println(nuevaLetra.image())
 
