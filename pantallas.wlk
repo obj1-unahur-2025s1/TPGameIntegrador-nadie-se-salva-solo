@@ -7,8 +7,10 @@ object menu {
 }
 
 object facil{
+    var velCaidaInicial = 5000
     method image() = "modoFacil.png"
-    method position() = game.origin()
+    method position() = game.origin()  
+    
 
     method configuracion() {
        if(juego.estaEnMenu()){
@@ -16,11 +18,15 @@ object facil{
           juego.dificultad(self)
           game.removeVisual(menu)
           game.addVisual(self)  
-          barraDeVida.addVisual()
-          keyboard.space().onPressDo({barraDeVida.removeVisual()})
-         
-
+          game.onTick(1000, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial)})
+        //  barraDeVida.addVisual()
+         // keyboard.space().onPressDo({barraDeVida.removeVisual()})
+          
        }
+    }
+
+    method cambiarVelocidad(){
+      velCaidaInicial =+ 1000
     }
 }
 

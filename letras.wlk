@@ -1,3 +1,5 @@
+import juego.*
+
 class Letras{
     
     var property position
@@ -20,8 +22,11 @@ class Letras{
         
     }
 
-    method destruir(){
-        game.removeVisual(self)
+    method destruir(unaLetra){
+        
+        keyboard.letter(unaLetra).onPressDo({game.removeVisual(self)})
+        juego.restarLetra()
+       // image = "explosion.png"
     }
 
     method iniciarCaida(tiempo){
@@ -30,6 +35,7 @@ class Letras{
 
     method addVisual(){
         game.addVisual(self)
+        juego.sumarLetra()
     }
 
     method removeVisual(){

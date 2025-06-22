@@ -12,8 +12,7 @@ object juego{
 	var property dificultad = null
 	const abecedario = self.abc()
 	const posicionesX = self.posicionesPosibles() //
-	var velFacil = 400
-	var velDificil = 200
+	var property letrasEnPantalla = 0
 	// 36 es el limite maximo de X e Y
 	// 12 es el limite de Y donde la tecla impacta con usuario
 	
@@ -22,20 +21,16 @@ object juego{
 		game.cellSize(15)
 		game.width(40)
 		game.height(40)	
-  		game.title("bombardeo de letras") // me gusta mas
+  		game.title("bombardeo de letras")
 		game.addVisual(menu)  	
 		keyboard.f().onPressDo({self.modoFacil()})
 		keyboard.d().onPressDo({self.modoDificil()})
-		keyboard.enter().onPressDo({self.menuInicial()})
-		
-		// game.addVisual(e) // instanciando un objeto con la clase Letra no me aparece
-		game.start()
-   		
+		keyboard.enter().onPressDo({self.menuInicial()})				
+		game.start()   		
 	}
+
 	method modoFacil(){
-		facil.configuracion()
-		game.onTick(3000, "nuevaLetra", {self.generarLetraAleatoria()})
-			
+		facil.configuracion()			
 	}
 
 
@@ -46,9 +41,7 @@ object juego{
 			estaEnMenu = false
 			dificultad = dificil
 			game.removeVisual(menu)
-			game.addVisual(dificil)
-			game.onTick(1000, "nuevaLetra", {self.generarLetraAleatoria()})
-
+			game.addVisual(dificil)	
 		}		
 	}
 
@@ -57,6 +50,7 @@ object juego{
 			if(dificultad == facil){
 				game.removeVisual(facil)
 				barraDeVida.removeVisual()
+				self.reiniciar()
 				
 			}else{
 				game.removeVisual(dificil)
@@ -68,17 +62,16 @@ object juego{
        
     }
 
-		method generarLetraAleatoria(){		
-		var letra = abecedario.anyOne()
+	method reiniciar(){
+		letrasEnPantalla = 0
+	}
+
+		method generarLetraAleatoria(velocidad){
+		const letra = abecedario.anyOne()
 		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne(), 36), image = letra+"u.png", letra = letra)
-		game.addVisual(nuevaLetra)
-		if(dificultad == facil){
-			nuevaLetra.iniciarCaida(velFacil)
-		}else{
-			nuevaLetra.iniciarCaida(velDificil)
-		}
-		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()})
-	
+		self.agregarLetraSiEsPosible(nuevaLetra, velocidad)
+		keyboard.letter(letra).onPressDo({nuevaLetra.destruir(letra)})
+		
 	}
 
 	method abc(){
@@ -88,6 +81,24 @@ object juego{
 	method posicionesPosibles(){
 		return #{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34}
 	}
+
+	method sumarLetra(){
+		letrasEnPantalla += 1
+	}
+
+	method restarLetra(){
+		letrasEnPantalla = (letrasEnPantalla -  1).max(0)
+	}
+
+	method agregarLetraSiEsPosible(unaLetra,velocidad){		
+		if(letrasEnPantalla <= 5){
+	    console.println(letrasEnPantalla)
+		self.sumarLetra()		
+		unaLetra.addVisual()
+		unaLetra.iniciarCaida(velocidad)
+		}
+	}
+
 
 }
 
