@@ -18,7 +18,7 @@ object facil{
           juego.dificultad(self)
           game.removeVisual(menu)
           game.addVisual(self)  
-          game.onTick(1000, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial)})
+          game.onTick(1000, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial,5)})
           
         //  barraDeVida.addVisual()
          // keyboard.space().onPressDo({barraDeVida.removeVisual()})

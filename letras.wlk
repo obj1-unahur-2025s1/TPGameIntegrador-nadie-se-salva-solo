@@ -24,7 +24,7 @@ class Letras{
 
     method destruir(){        
         self.removeVisual()
-        juego.restarLetra()
+        juego.listaLetras().remove(self.letra())
        // image = "explosion.png"
     }
 
@@ -34,8 +34,8 @@ class Letras{
 
     method addVisual(){
         game.addVisual(self)
-        juego.sumarLetra()
-    }
+        
+        }
 
     method removeVisual(){
         game.removeVisual(self)

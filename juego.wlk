@@ -11,8 +11,8 @@ object juego{
 	var estaJugando = false
 	var property dificultad = null
 	const abecedario = self.abc()
-	const posicionesX = self.posicionesPosibles() //
-	var property letrasEnPantalla = 0
+	const posicionesX = self.posicionesPosibles() //	
+	var property listaLetras = [] 
 	// 36 es el limite maximo de X e Y
 	// 12 es el limite de Y donde la tecla impacta con usuario
 	
@@ -25,7 +25,7 @@ object juego{
 		game.addVisual(menu)  	
 		keyboard.f().onPressDo({self.modoFacil()})
 		keyboard.d().onPressDo({self.modoDificil()})
-		keyboard.enter().onPressDo({self.menuInicial()})				
+		keyboard.enter().onPressDo({self.reiniciar()})				
 		game.start()   		
 	}
 
@@ -33,10 +33,7 @@ object juego{
 		facil.configuracion()
 			// deberia ir aca		
 	}
-
-
 	
-
 	method modoDificil(){
 		if (estaEnMenu){
 			estaEnMenu = false
@@ -46,33 +43,33 @@ object juego{
 		}		
 	}
 
-	method menuInicial(){
+	method reiniciar(){
 		if(!estaJugando){
-			if(dificultad == facil){
-				game.removeVisual(facil)
-				barraDeVida.removeVisual()
-				self.reiniciar()
-				
-			}else{
-				game.removeVisual(dificil)
-			}			
+			listaLetras.clear()
+			self.quitarEscenaJuego()
 			game.removeTickEvent("nuevaLetra")
 	  		game.addVisual(menu)
-	 	 	estaEnMenu = true
+	 		estaEnMenu = true			
 		}
        
     }
 
-	method reiniciar(){
-		letrasEnPantalla = 0
-		
+
+	method quitarEscenaJuego(){
+			if(dificultad == facil){
+				game.removeVisual(facil)
+				barraDeVida.removeVisual()					
+			}else{
+				game.removeVisual(dificil)
+			}
 	}
 
-		method generarLetraAleatoria(velocidad){
+
+
+	method generarLetraAleatoria(velocidad,unaCantidad){
 		const letra = abecedario.anyOne()
 		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne(), 36), image = letra+"u.png", letra = letra)
-		self.agregarLetraSiEsPosible(nuevaLetra, velocidad)
-		console.println(letrasEnPantalla)
+		self.agregarLetraSiEsPosible(nuevaLetra, velocidad,unaCantidad)
 		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()}) // tiene que estar afuera, pero como?
 		
 	}
@@ -85,20 +82,25 @@ object juego{
 		return #{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34}
 	}
 
-	method sumarLetra(){
-		letrasEnPantalla += 1
-	}
+	
 
-	method restarLetra(){
-		letrasEnPantalla = (letrasEnPantalla -  1).max(0)
-	}
-
-	method agregarLetraSiEsPosible(unaLetra,velocidad){		
-		if(letrasEnPantalla <= 5){
-		unaLetra.addVisual()
-		unaLetra.iniciarCaida(velocidad)
+	method agregarLetraSiEsPosible(unaLetra,velocidad,unaCantidad){
+		
+		//var letra = unaLetra.letra()
+		
+		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(unaLetra.letra())){
+			unaLetra.addVisual()
+			unaLetra.iniciarCaida(velocidad)
+			listaLetras.add(unaLetra.letra())		
 		}
 	}
+
+	method hayLetraRepetida(unaLetra){
+		
+		return listaLetras.contains(unaLetra)
+	}
+
+	
 
 
 }
