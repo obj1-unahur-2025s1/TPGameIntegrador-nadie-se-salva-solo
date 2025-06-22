@@ -7,7 +7,7 @@ object menu {
 }
 
 object facil{
-    var velCaidaInicial = 5000
+    var velCaidaInicial = 1000
     method image() = "modoFacil.png"
     method position() = game.origin()  
     
@@ -19,6 +19,7 @@ object facil{
           game.removeVisual(menu)
           game.addVisual(self)  
           game.onTick(1000, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial)})
+          
         //  barraDeVida.addVisual()
          // keyboard.space().onPressDo({barraDeVida.removeVisual()})
           

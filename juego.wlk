@@ -30,7 +30,8 @@ object juego{
 	}
 
 	method modoFacil(){
-		facil.configuracion()			
+		facil.configuracion()
+			// deberia ir aca		
 	}
 
 
@@ -64,13 +65,15 @@ object juego{
 
 	method reiniciar(){
 		letrasEnPantalla = 0
+		
 	}
 
 		method generarLetraAleatoria(velocidad){
 		const letra = abecedario.anyOne()
 		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne(), 36), image = letra+"u.png", letra = letra)
 		self.agregarLetraSiEsPosible(nuevaLetra, velocidad)
-		keyboard.letter(letra).onPressDo({nuevaLetra.destruir(letra)})
+		console.println(letrasEnPantalla)
+		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()}) // tiene que estar afuera, pero como?
 		
 	}
 
@@ -92,8 +95,6 @@ object juego{
 
 	method agregarLetraSiEsPosible(unaLetra,velocidad){		
 		if(letrasEnPantalla <= 5){
-	    console.println(letrasEnPantalla)
-		self.sumarLetra()		
 		unaLetra.addVisual()
 		unaLetra.iniciarCaida(velocidad)
 		}

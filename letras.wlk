@@ -22,9 +22,8 @@ class Letras{
         
     }
 
-    method destruir(unaLetra){
-        
-        keyboard.letter(unaLetra).onPressDo({game.removeVisual(self)})
+    method destruir(){        
+        self.removeVisual()
         juego.restarLetra()
        // image = "explosion.png"
     }
