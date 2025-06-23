@@ -22,10 +22,11 @@ class Letras{
         
     }
 
-    method destruir(){        
-        self.removeVisual()
-        juego.listaLetras().remove(self.letra())
-       // image = "explosion.png"
+    method destruir(){
+
+       juego.listaLetras().remove(self.letra())
+       image = "explosion1.png"
+       game.onTick(500, "boom", {self.removeVisual()})
     }
 
     method iniciarCaida(tiempo){
@@ -33,9 +34,8 @@ class Letras{
     }
 
     method addVisual(){
-        game.addVisual(self)
-        
-        }
+        game.addVisual(self)        
+    }
 
     method removeVisual(){
         game.removeVisual(self)

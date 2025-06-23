@@ -3,7 +3,6 @@ import juego.*
 
 
 program Game {
-	juego.iniciar()
-	// hacer que haya un maximo posible de letras en pantalla
+	juego.iniciar()	
 	
 }

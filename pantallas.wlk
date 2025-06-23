@@ -1,3 +1,4 @@
+import puntuacion.*
 import juego.*
 import vida.*
 
@@ -19,8 +20,9 @@ object facil{
           game.removeVisual(menu)
           game.addVisual(self)  
           game.onTick(1000, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial,5)})
-          
-        //  barraDeVida.addVisual()
+          //game.schedule(100, {})
+          barraDeVida.addVisual()
+          puntos.addVisual()
          // keyboard.space().onPressDo({barraDeVida.removeVisual()})
           
        }
@@ -33,6 +35,21 @@ object facil{
 
 object dificil {    
     method image() = "modoDificil.png"
-    method position() = game.origin()    
+    method position() = game.origin()
+    var velCaidaInicial = 1000
+
+    method configuracion() {
+       if(juego.estaEnMenu()){
+          juego.estaEnMenu(false)
+          juego.dificultad(self)
+          game.removeVisual(menu)
+          game.addVisual(self)  
+          game.onTick(500, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial,8)})          
+          barraDeVida.addVisual()
+          puntos.addVisual()
+          keyboard.space().onPressDo({barraDeVida.perderVidas()})
+          
+       }
+    }    
 }
 

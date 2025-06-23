@@ -2,14 +2,15 @@ import vida.*
 import wollok.game.*
 import letras.*
 import pantallas.*
+import puntuacion.*
 
 
     
 
 object juego{
 	var property estaEnMenu = true
-	var estaJugando = false
-	var property dificultad = null
+	const estaJugando = false
+	var property dificultad = facil
 	const abecedario = self.abc()
 	const posicionesX = self.posicionesPosibles() //	
 	var property listaLetras = [] 
@@ -35,12 +36,7 @@ object juego{
 	}
 	
 	method modoDificil(){
-		if (estaEnMenu){
-			estaEnMenu = false
-			dificultad = dificil
-			game.removeVisual(menu)
-			game.addVisual(dificil)	
-		}		
+		dificil.configuracion()		
 	}
 
 	method reiniciar(){
@@ -49,6 +45,9 @@ object juego{
 			self.quitarEscenaJuego()
 			game.removeTickEvent("nuevaLetra")
 	  		game.addVisual(menu)
+			barraDeVida.removeVisual()
+			barraDeVida.reiniciar()
+			puntos.removeVisual()
 	 		estaEnMenu = true			
 		}
        
@@ -58,7 +57,7 @@ object juego{
 	method quitarEscenaJuego(){
 			if(dificultad == facil){
 				game.removeVisual(facil)
-				barraDeVida.removeVisual()					
+				//barraDeVida.removeVisual()					
 			}else{
 				game.removeVisual(dificil)
 			}
@@ -68,7 +67,8 @@ object juego{
 
 	method generarLetraAleatoria(velocidad,unaCantidad){
 		const letra = abecedario.anyOne()
-		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne(), 36), image = letra+"u.png", letra = letra)
+		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne()+ self.extra().anyOne(), 36), image = letra+"u.png", letra = letra)
+		
 		self.agregarLetraSiEsPosible(nuevaLetra, velocidad,unaCantidad)
 		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()}) // tiene que estar afuera, pero como?
 		
@@ -79,7 +79,11 @@ object juego{
 	}
 
 	method posicionesPosibles(){
-		return #{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34}
+		return #{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}
+	}
+
+	method extra(){
+		return #{1,2,3,4,5}
 	}
 
 	

@@ -16,16 +16,22 @@ class Vida{
 
 object barraDeVida{
     const barra = [new Vida(corazon = 1, x =0),new Vida(corazon = 2, x =5),new Vida(corazon = 3, x =10)]
-    var cantidad = 3
+    var cantidad = 4
+
     method addVisual(){
      barra.forEach({v => game.addVisual(v)})
   }
   method removeVisual(){
-    barra.forEach({v => v.vidaPerdida()})
+    barra.forEach({v => game.removeVisual(v)})
   }
 
+  method reiniciar(){
+    barra.forEach({c => c.reinicio()})
+    cantidad = 3
+  }
   method restarCantidad(){
     cantidad -= 1
+    console.println("aprete")
   }
   method perderVidas(){
     if(cantidad == 3){
