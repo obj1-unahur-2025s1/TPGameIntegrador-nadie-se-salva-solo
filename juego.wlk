@@ -12,8 +12,10 @@ object juego{
 	const estaJugando = false
 	var property dificultad = facil
 	const abecedario = self.abc()
-	const posicionesX = self.posicionesPosibles() //	
-	var property listaLetras = [] 
+	//const posicionesX = 
+	var posicionesPosibles = [] //	
+	var property listaLetras = []
+	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
 	// 36 es el limite maximo de X e Y
 	// 12 es el limite de Y donde la tecla impacta con usuario
 	
@@ -67,7 +69,7 @@ object juego{
 
 	method generarLetraAleatoria(velocidad,unaCantidad){
 		const letra = abecedario.anyOne()
-		const nuevaLetra = new Letras(position= game.at(posicionesX.anyOne()+ self.extra().anyOne(), 36), image = letra+"u.png", letra = letra)
+		const nuevaLetra = new Letras(position= game.at(self.algunaPosicion(), 36), image = letra+"u.png", letra = letra)
 		
 		self.agregarLetraSiEsPosible(nuevaLetra, velocidad,unaCantidad)
 		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()}) // tiene que estar afuera, pero como?
@@ -78,20 +80,25 @@ object juego{
 		return ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 	}
 
-	method posicionesPosibles(){
-		return #{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29}
+	method algunaPosicion(){		
+		self.reiniciarPosiciones()		
+		posicionesPosibles.add(posiciones.first())
+		posiciones.remove(posiciones.first())
+		return posicionesPosibles.last().anyOne()
 	}
 
-	method extra(){
-		return #{1,2,3,4,5}
+	method reiniciarPosiciones(){
+		if(posiciones.isEmpty()){
+		  posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
+		  posicionesPosibles.clear()
+		}
 	}
 
 	
 
-	method agregarLetraSiEsPosible(unaLetra,velocidad,unaCantidad){
-		
-		//var letra = unaLetra.letra()
-		
+	
+
+	method agregarLetraSiEsPosible(unaLetra,velocidad,unaCantidad){		
 		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(unaLetra.letra())){
 			unaLetra.addVisual()
 			unaLetra.iniciarCaida(velocidad)
@@ -99,8 +106,7 @@ object juego{
 		}
 	}
 
-	method hayLetraRepetida(unaLetra){
-		
+	method hayLetraRepetida(unaLetra){		
 		return listaLetras.contains(unaLetra)
 	}
 
