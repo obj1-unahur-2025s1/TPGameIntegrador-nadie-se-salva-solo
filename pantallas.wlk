@@ -7,49 +7,58 @@ object menu {
   method position() = game.origin()
 }
 
-object facil{
-    var velCaidaInicial = 1000
-    method image() = "modoFacil.png"
-    method position() = game.origin()  
-    
+class Dificultad{
+   var velCaidaInicial
+   var cantidadLetras
+   var velocidadAparicion 
+   const property image
+   method position() = game.origin()
 
-    method configuracion() {
-       if(juego.estaEnMenu()){
-          juego.estaEnMenu(false)
-          juego.dificultad(self)
-          game.removeVisual(menu)
-          game.addVisual(self)  
-          game.onTick(1000, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial,5)})
-          //game.schedule(100, {})
-          barraDeVida.addVisual()
-          puntos.addVisual()
-         // keyboard.space().onPressDo({barraDeVida.removeVisual()})
-          
-       }
-    }
+   method configuracion(){
+      if(juego.estaEnMenu()){
+         juego.estaEnMenu(false)
+         juego.dificultad(self)
+         self.resetearVelocidades()
+         game.removeVisual(menu)
+         game.addVisual(self)
+         game.onTick(velocidadAparicion, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial,cantidadLetras)})
+         barraDeVida.addVisual()
+         puntos.addVisual()  
+      }
+   }
 
-    method cambiarVelocidad(){
-      velCaidaInicial =+ 1000
-    }
+   method volverMenu(){
+      game.removeVisual(self)
+      game.addVisual(menu)
+   }
+
+   method aumentarVelocidad(unaVelocidad){
+      velCaidaInicial = velCaidaInicial + unaVelocidad
+   }
+
+   method aumentarvelocidadAparicion(unaVelocidad){
+      velocidadAparicion = velocidadAparicion + unaVelocidad
+   }
+
+   method resetearVelocidades(){
+      
+   }
+
+   method cambiarCantLetras(unaCantidad){
+      cantidadLetras = unaCantidad
+   }
 }
 
-object dificil {    
-    method image() = "modoDificil.png"
-    method position() = game.origin()
-    var velCaidaInicial = 1000
-
-    method configuracion() {
-       if(juego.estaEnMenu()){
-          juego.estaEnMenu(false)
-          juego.dificultad(self)
-          game.removeVisual(menu)
-          game.addVisual(self)  
-          game.onTick(500, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial,8)})          
-          barraDeVida.addVisual()
-          puntos.addVisual()
-          keyboard.space().onPressDo({barraDeVida.perderVidas()})
-          
-       }
-    }    
+class Facil inherits Dificultad{
+      override method resetearVelocidades(){
+         velCaidaInicial = 2000
+         velocidadAparicion = 2000
+   }
 }
 
+class Dificil inherits Dificultad{
+   override method resetearVelocidades(){
+         velCaidaInicial = 2000
+         velocidadAparicion = 2000
+   }
+}

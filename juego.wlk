@@ -9,11 +9,9 @@ import puntuacion.*
 
 object juego{
 	var property estaEnMenu = true
-	const estaJugando = false
-	var property dificultad = facil
-	const abecedario = self.abc()
-	//const posicionesX = 
-	var posicionesPosibles = [] //	
+	
+	var property dificultad = null
+	const posicionesPosibles = [] 	
 	var property listaLetras = []
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
 	// 36 es el limite maximo de X e Y
@@ -33,47 +31,35 @@ object juego{
 	}
 
 	method modoFacil(){
-		facil.configuracion()
+		dificultad = new Dificultad(velCaidaInicial= 2000, cantidadLetras= 5,velocidadAparicion = 2000, image = "modoFacil.png")
+		dificultad.configuracion()
+		
 			// deberia ir aca		
 	}
 	
 	method modoDificil(){
-		dificil.configuracion()		
+		dificultad = new Dificultad(velCaidaInicial= 1000, cantidadLetras= 8,velocidadAparicion = 1000, image = "modoDificil.png")
+		dificultad.configuracion()
 	}
 
 	method reiniciar(){
-		if(!estaJugando){
+		if(not estaEnMenu){
 			listaLetras.clear()
-			self.quitarEscenaJuego()
 			game.removeTickEvent("nuevaLetra")
-	  		game.addVisual(menu)
+	  		game.removeVisual(dificultad)
+			game.addVisual(menu)
 			barraDeVida.removeVisual()
 			barraDeVida.reiniciar()
 			puntos.removeVisual()
 	 		estaEnMenu = true			
-		}
-       
-    }
-
-
-	method quitarEscenaJuego(){
-			if(dificultad == facil){
-				game.removeVisual(facil)
-				//barraDeVida.removeVisual()					
-			}else{
-				game.removeVisual(dificil)
-			}
-	}
-
-
+		}       
+    }	
 
 	method generarLetraAleatoria(velocidad,unaCantidad){
-		const letra = abecedario.anyOne()
-		const nuevaLetra = new Letras(position= game.at(self.algunaPosicion(), 36), image = letra+"u.png", letra = letra)
-		
+		const letra = self.abc().anyOne()
+		const nuevaLetra = new Letras(position= game.at(self.algunaPosicion(), 36), image = letra+"u.png", letra = letra)		
 		self.agregarLetraSiEsPosible(nuevaLetra, velocidad,unaCantidad)
-		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()}) // tiene que estar afuera, pero como?
-		
+		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()}) 		
 	}
 
 	method abc(){
@@ -93,11 +79,6 @@ object juego{
 		  posicionesPosibles.clear()
 		}
 	}
-
-	
-
-	
-
 	method agregarLetraSiEsPosible(unaLetra,velocidad,unaCantidad){		
 		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(unaLetra.letra())){
 			unaLetra.addVisual()
@@ -105,7 +86,6 @@ object juego{
 			listaLetras.add(unaLetra.letra())		
 		}
 	}
-
 	method hayLetraRepetida(unaLetra){		
 		return listaLetras.contains(unaLetra)
 	}
