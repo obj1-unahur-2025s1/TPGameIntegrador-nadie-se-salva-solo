@@ -16,7 +16,7 @@ class Vida{
 
 object barraDeVida{
     const barra = [new Vida(corazon = 1, x =0),new Vida(corazon = 2, x =5),new Vida(corazon = 3, x =10)]
-    var cantidad = 4
+    var cantidad = 3
 
     method addVisual(){
      barra.forEach({v => game.addVisual(v)})

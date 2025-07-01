@@ -21,7 +21,7 @@ class Dificultad{
          self.resetearVelocidades()
          game.removeVisual(menu)
          game.addVisual(self)
-       //  self.empezar()
+         self.empezar()
          barraDeVida.addVisual()
          puntos.addVisual()
          keyboard.enter().onPressDo({juego.reiniciar()})		
@@ -31,7 +31,8 @@ class Dificultad{
    }
 
    method empezar(){
-     // game.onTick(velocidadAparicion, self.identity().toString(), {juego.generarLetraAleatoria(velCaidaInicial,cantidadLetras)})
+      game.onTick(2000, "letra", {juego.generarLetraAleatoria()}) 
+     //game.onTick(velocidadAparicion, self.identity().toString(), {juego.generarLetraAleatoria(velCaidaInicial,cantidadLetras)})
    }
 
    method detener(){

@@ -25,14 +25,14 @@ object juego{
 		game.addVisual(menu)  	
 		keyboard.f().onPressDo({self.modoFacil()})
 		keyboard.d().onPressDo({self.modoDificil()})
-		//keyboard.enter().onPressDo({self.reiniciar()})				
+		keyboard.enter().onPressDo({self.reiniciar()})				
 		game.start()   		
 	}
 
 	method modoFacil(){
 		dificultad = new Dificultad(velCaidaInicial= 2000, cantidadLetras= 5,velocidadAparicion = 2000, image = "modoFacil.png")
 		dificultad.configuracion()
-		game.onTick(2000, "letra", {self.generarLetraAleatoria()}) 
+		
 		
 	// dificultad.configuracion()		
 	}
@@ -49,7 +49,8 @@ object juego{
 	method reiniciar(){
 		if(not estaEnMenu){
 			listaLetras.clear()
-			game.removeTickEvent("nuevaLetra")
+			game.removeTickEvent("letra")
+			game.removeTickEvent("caida")
 	  		game.removeVisual(dificultad)
 			game.addVisual(menu)
 			dificultad.detener()
@@ -62,10 +63,19 @@ object juego{
 
 	method generarLetraAleatoria(){
 		var letra = self.abc().anyOne()
+
 		letra.cambiarPosicion(self.algunaPosicion())		
 		letra.addVisual()
 		letra.iniciarCaida(1000)
 		keyboard.letter(letra.letra()).onPressDo({letra.destruir()})
+	}
+	method agregarLetraSiEsPosible(unaLetra,velocidad,unaCantidad){		
+		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(unaLetra)){
+			//unaLetra.addVisual()
+			game.addVisual(unaLetra)
+			//unaLetra.iniciarCaida(velocidad)
+			listaLetras.add(unaLetra)		
+		}
 	}
 
 	method algunaPosicion(){		
@@ -81,14 +91,7 @@ object juego{
 		  posicionesPosibles.clear()
 		}
 	}
-	method agregarLetraSiEsPosible(unaLetra,velocidad,unaCantidad){		
-		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(unaLetra)){
-			//unaLetra.addVisual()
-			game.addVisual(unaLetra)
-			//unaLetra.iniciarCaida(velocidad)
-			listaLetras.add(unaLetra)		
-		}
-	}
+	
 	method hayLetraRepetida(unaLetra){		
 		return listaLetras.contains(unaLetra)
 	}

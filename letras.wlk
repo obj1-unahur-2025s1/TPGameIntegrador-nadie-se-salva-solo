@@ -1,5 +1,5 @@
 import juego.*
-
+import vida.*
 class Letras{
     
     var property position = game.center()
@@ -10,9 +10,13 @@ class Letras{
     var property esVisible = false
 
     method caer(){
-        if(esVisible){
+        if(esVisible and self.position().y() != 15){
             position = position.down(1)
-        }               
+            console.println(self.position())
+        }else{
+           // Vida.restarCantidad()
+        }
+                     
     }
 
     method cambiarPosicion(posicionX){
@@ -21,8 +25,7 @@ class Letras{
 
     method chocar(){
         // hacer que reste una vida
-        game.removeTickEvent("caida")
-        
+        game.removeTickEvent("caida")        
     }
    // method detener(){
      //   position = self.position()
@@ -31,8 +34,8 @@ class Letras{
     method destruir(){
        juego.listaLetras().remove(self.letra())
        image = "explosion1.png"
-      // game.onTick(500, "boom", {self.removeVisual()})
-      esVisible = false
+      //game.onTick(500, "boom", {self.removeVisual()})
+       esVisible = false
 
     }
 
