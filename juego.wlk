@@ -8,9 +8,8 @@ import puntuacion.*
     
 
 object juego{
-	var property estaEnMenu = true
-	
-	var property dificultad = null
+	var property estaEnMenu = true	
+	var dificultad = null
 	const posicionesPosibles = [] 	
 	var property listaLetras = []
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
@@ -26,20 +25,25 @@ object juego{
 		game.addVisual(menu)  	
 		keyboard.f().onPressDo({self.modoFacil()})
 		keyboard.d().onPressDo({self.modoDificil()})
-		keyboard.enter().onPressDo({self.reiniciar()})				
+		//keyboard.enter().onPressDo({self.reiniciar()})				
 		game.start()   		
 	}
 
 	method modoFacil(){
 		dificultad = new Dificultad(velCaidaInicial= 2000, cantidadLetras= 5,velocidadAparicion = 2000, image = "modoFacil.png")
 		dificultad.configuracion()
+		game.onTick(2000, "letra", {self.generarLetraAleatoria()}) 
 		
-			// deberia ir aca		
+	// dificultad.configuracion()		
 	}
 	
 	method modoDificil(){
 		dificultad = new Dificultad(velCaidaInicial= 1000, cantidadLetras= 8,velocidadAparicion = 1000, image = "modoDificil.png")
 		dificultad.configuracion()
+	}
+
+	method cambiarDificultad(unaDificultad){
+		dificultad = unaDificultad
 	}
 
 	method reiniciar(){
@@ -48,6 +52,7 @@ object juego{
 			game.removeTickEvent("nuevaLetra")
 	  		game.removeVisual(dificultad)
 			game.addVisual(menu)
+			dificultad.detener()
 			barraDeVida.removeVisual()
 			barraDeVida.reiniciar()
 			puntos.removeVisual()
@@ -55,15 +60,12 @@ object juego{
 		}       
     }	
 
-	method generarLetraAleatoria(velocidad,unaCantidad){
-		const letra = self.abc().anyOne()
-		const nuevaLetra = new Letras(position= game.at(self.algunaPosicion(), 36), image = letra+"u.png", letra = letra)		
-		self.agregarLetraSiEsPosible(nuevaLetra, velocidad,unaCantidad)
-		keyboard.letter(letra).onPressDo({nuevaLetra.destruir()}) 		
-	}
-
-	method abc(){
-		return ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+	method generarLetraAleatoria(){
+		var letra = self.abc().anyOne()
+		letra.cambiarPosicion(self.algunaPosicion())		
+		letra.addVisual()
+		letra.iniciarCaida(1000)
+		keyboard.letter(letra.letra()).onPressDo({letra.destruir()})
 	}
 
 	method algunaPosicion(){		
@@ -80,15 +82,52 @@ object juego{
 		}
 	}
 	method agregarLetraSiEsPosible(unaLetra,velocidad,unaCantidad){		
-		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(unaLetra.letra())){
-			unaLetra.addVisual()
-			unaLetra.iniciarCaida(velocidad)
-			listaLetras.add(unaLetra.letra())		
+		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(unaLetra)){
+			//unaLetra.addVisual()
+			game.addVisual(unaLetra)
+			//unaLetra.iniciarCaida(velocidad)
+			listaLetras.add(unaLetra)		
 		}
 	}
 	method hayLetraRepetida(unaLetra){		
 		return listaLetras.contains(unaLetra)
 	}
+
+	
+
+	method abc(){
+		const a = new Letras(image = "Au.png",letra = "A",puntaje = 1)
+		const b = new Letras(image = "Bu.png",letra = "B",puntaje = 3)
+		const c = new Letras(image = "Cu.png",letra = "C",puntaje = 1)
+		const d = new Letras(image = "Du.png",letra = "D",puntaje = 1)
+		const e = new Letras(image = "Eu.png",letra = "E",puntaje = 1)
+		const f = new Letras(image = "Fu.png",letra = "F",puntaje = 1)
+		const g = new Letras(image = "Gu.png",letra = "G",puntaje = 2)
+		const h = new Letras(image = "Hu.png",letra = "H",puntaje = 2)
+		const i = new Letras(image = "Iu.png",letra = "I",puntaje = 2)
+		const j = new Letras(image = "Ju.png",letra = "J",puntaje = 2)
+		const k = new Letras(image = "Ku.png",letra = "K",puntaje = 2)
+		const l = new Letras(image = "Lu.png",letra = "L",puntaje = 2)
+		const m = new Letras(image = "Mu.png",letra = "M",puntaje = 2)
+		const n = new Letras(image = "Nu.png",letra = "N",puntaje = 2)
+		const o = new Letras(image = "Ou.png",letra = "O",puntaje = 3)
+		const p = new Letras(image = "Pu.png",letra = "P",puntaje = 3)
+		const q = new Letras(image = "Qu.png",letra = "Q",puntaje = 3)
+		const r = new Letras(image = "Ru.png",letra = "R",puntaje = 1)
+		const s = new Letras(image = "Su.png",letra = "S",puntaje = 1)
+		const t = new Letras(image = "Tu.png",letra = "T",puntaje = 1)
+		const u = new Letras(image = "Uu.png",letra = "U",puntaje = 2)
+		const v = new Letras(image = "Vu.png",letra = "V",puntaje = 2)
+		const w = new Letras(image = "Wu.png",letra = "W",puntaje = 3)
+		const x = new Letras(image = "Xu.png",letra = "X",puntaje = 3)
+		const y = new Letras(image = "Yu.png",letra = "Y",puntaje = 3)
+		const z = new Letras(image = "Zu.png",letra = "Z",puntaje = 3)
+		const letras =[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z]
+		return letras
+	}
+	
+
+	
 
 	
 

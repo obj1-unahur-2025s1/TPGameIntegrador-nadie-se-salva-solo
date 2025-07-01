@@ -17,21 +17,27 @@ class Dificultad{
    method configuracion(){
       if(juego.estaEnMenu()){
          juego.estaEnMenu(false)
-         juego.dificultad(self)
+         juego.cambiarDificultad(self)
          self.resetearVelocidades()
          game.removeVisual(menu)
          game.addVisual(self)
-         game.onTick(velocidadAparicion, "nuevaLetra", {juego.generarLetraAleatoria(velCaidaInicial,cantidadLetras)})
+       //  self.empezar()
          barraDeVida.addVisual()
-         puntos.addVisual()  
+         puntos.addVisual()
+         keyboard.enter().onPressDo({juego.reiniciar()})		
+         //limite.addVisual()
+       //  game.addVisual(limite)  
       }
    }
 
-   method volverMenu(){
-      game.removeVisual(self)
-      game.addVisual(menu)
+   method empezar(){
+     // game.onTick(velocidadAparicion, self.identity().toString(), {juego.generarLetraAleatoria(velCaidaInicial,cantidadLetras)})
    }
 
+   method detener(){
+      game.removeTickEvent(self.identity().toString())
+   }   
+   
    method aumentarVelocidad(unaVelocidad){
       velCaidaInicial = velCaidaInicial + unaVelocidad
    }

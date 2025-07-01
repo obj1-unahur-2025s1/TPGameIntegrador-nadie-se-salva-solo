@@ -50,3 +50,18 @@ object barraDeVida{
     }
 
 }
+
+object limite{
+  const property image = "pruebaLimite.png"
+//  const width = 50
+//  const height = 50
+  const property position = game.at(0, 0)
+  
+  method addVisual(){
+    game.addVisual(self)
+  }
+
+  method chocar(objeto,unaAccion){
+    game.whenCollideDo(objeto, unaAccion)
+  }
+}

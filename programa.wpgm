@@ -4,5 +4,6 @@ import juego.*
 
 program Game {
 	juego.iniciar()	
-	
+
+	// hay un problemon, el juego nunca para!
 }

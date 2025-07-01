@@ -20,3 +20,4 @@ object puntos{
     puntuacion.forEach({v => game.removeVisual(v)})
   }
 }
+

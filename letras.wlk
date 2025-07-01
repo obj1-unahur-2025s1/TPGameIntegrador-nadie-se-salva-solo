@@ -2,18 +2,21 @@ import juego.*
 
 class Letras{
     
-    var property position
+    var property position = game.center()
     var property image
-    var property letra 
+    const property letra 
+    var property velocidadCaida = 0
+    const property puntaje
+    var property esVisible = false
 
     method caer(){
-        if (position.y() < game.height() -1){
+        if(esVisible){
             position = position.down(1)
-        }
-        else{
-            self.chocar()
-            game.removeVisual(self)
-        }
+        }               
+    }
+
+    method cambiarPosicion(posicionX){
+        position = game.at(posicionX, 36)
     }
 
     method chocar(){
@@ -21,16 +24,21 @@ class Letras{
         game.removeTickEvent("caida")
         
     }
+   // method detener(){
+     //   position = self.position()
+  //  }
 
     method destruir(){
-
        juego.listaLetras().remove(self.letra())
        image = "explosion1.png"
-       game.onTick(500, "boom", {self.removeVisual()})
+      // game.onTick(500, "boom", {self.removeVisual()})
+      esVisible = false
+
     }
 
     method iniciarCaida(tiempo){
         game.onTick(tiempo, "caida", {self.caer()})
+        esVisible = true
     }
 
     method addVisual(){
@@ -41,5 +49,10 @@ class Letras{
         game.removeVisual(self)
     }
 
+ //   method impacto(){
+  //      if (self.position().y() < 5){
+   //         console.println("impacto!")
+   //     }
+  //  }
 }
 
