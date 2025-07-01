@@ -31,8 +31,8 @@ class Dificultad{
    }
 
    method empezar(){
-      game.onTick(2000, "letra", {juego.generarLetraAleatoria()}) 
-     //game.onTick(velocidadAparicion, self.identity().toString(), {juego.generarLetraAleatoria(velCaidaInicial,cantidadLetras)})
+      game.onTick(velocidadAparicion, "letra", {juego.agregarLetraSiEsPosible(velCaidaInicial,cantidadLetras)}) 
+     
    }
 
    method detener(){

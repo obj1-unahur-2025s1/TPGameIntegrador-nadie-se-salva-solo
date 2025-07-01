@@ -5,5 +5,15 @@ import juego.*
 program Game {
 	juego.iniciar()	
 
-	// hay un problemon, el juego nunca para!
+	
+	// puntuacion
+	// aumentar dificultad por puntuacion (velocidad caida, letras en pantalla y velocidad aparicion )
+	// limite y restar  vidas
+	
+	// game over
+
+	// extras, que roten las letras, letras especiales
+
+	
+
 }

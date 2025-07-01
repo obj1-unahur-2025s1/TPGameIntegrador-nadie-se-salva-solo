@@ -61,20 +61,22 @@ object juego{
 		}       
     }	
 
-	method generarLetraAleatoria(){
+	method generarLetraAleatoria(velocidad,unaCantidad){
+			
+		
+		
+		
+	}
+	method agregarLetraSiEsPosible(velocidad,unaCantidad){	
+
 		var letra = self.abc().anyOne()
 
-		letra.cambiarPosicion(self.algunaPosicion())		
-		letra.addVisual()
-		letra.iniciarCaida(1000)
-		keyboard.letter(letra.letra()).onPressDo({letra.destruir()})
-	}
-	method agregarLetraSiEsPosible(unaLetra,velocidad,unaCantidad){		
-		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(unaLetra)){
-			//unaLetra.addVisual()
-			game.addVisual(unaLetra)
-			//unaLetra.iniciarCaida(velocidad)
-			listaLetras.add(unaLetra)		
+		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra.letra())){
+			letra.cambiarPosicion(self.algunaPosicion())
+			letra.addVisual()
+			letra.iniciarCaida(velocidad)			
+			listaLetras.add(letra.letra())
+			keyboard.letter(letra.letra()).onPressDo({letra.destruir()})		
 		}
 	}
 

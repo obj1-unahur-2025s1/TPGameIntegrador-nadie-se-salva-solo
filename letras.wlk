@@ -22,19 +22,12 @@ class Letras{
     method cambiarPosicion(posicionX){
         position = game.at(posicionX, 36)
     }
-
-    method chocar(){
-        // hacer que reste una vida
-        game.removeTickEvent("caida")        
-    }
-   // method detener(){
-     //   position = self.position()
-  //  }
+   
 
     method destruir(){
        juego.listaLetras().remove(self.letra())
        image = "explosion1.png"
-      //game.onTick(500, "boom", {self.removeVisual()})
+       game.onTick(500, "boom", {self.removeVisual()})
        esVisible = false
 
     }
@@ -52,10 +45,6 @@ class Letras{
         game.removeVisual(self)
     }
 
- //   method impacto(){
-  //      if (self.position().y() < 5){
-   //         console.println("impacto!")
-   //     }
-  //  }
+
 }
 
