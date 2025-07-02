@@ -10,11 +10,13 @@ class Letras{
     var property esVisible = false
 
     method caer(){
-        if(esVisible and self.position().y() != 15){
-            position = position.down(1)
-            console.println(self.position())
-        }else{
-           // Vida.restarCantidad()
+        if(esVisible){
+            position = position.down(1)            
+        }
+        if (self.position().y() == 10){
+            barraDeVida.restarCantidad()
+            self.destruir()
+            game.onTick(600, "reubicar", {self.cambiarPosicion(36)})
         }
                      
     }

@@ -1,3 +1,6 @@
+import pantallas.*
+
+
 class Vida{
   const corazon
   var x
@@ -17,51 +20,24 @@ class Vida{
 object barraDeVida{
     const barra = [new Vida(corazon = 1, x =0),new Vida(corazon = 2, x =5),new Vida(corazon = 3, x =10)]
     var cantidad = 3
+    var posiciones = 0
 
     method addVisual(){
-     barra.forEach({v => game.addVisual(v)})
-  }
-  method removeVisual(){
-    barra.forEach({v => game.removeVisual(v)})
-  }
+      barra.forEach({v => game.addVisual(v)})
+    }
+    method removeVisual(){
+      barra.forEach({v => game.removeVisual(v)})
+    }
 
-  method reiniciar(){
-    barra.forEach({c => c.reinicio()})
-    cantidad = 3
-  }
-  method restarCantidad(){
-    cantidad -= 1
-    console.println("aprete")
-  }
-  method perderVidas(){
-    if(cantidad == 3){
-      barra.get(2).vidaPerdida()
-      self.restarCantidad()
+    method reiniciar(){
+      barra.forEach({c => c.reinicio()})
+      posiciones = 0
     }
-    if(cantidad == 2){
-      barra.get(1).vidaPerdida()
-      self.restarCantidad()
-    }
-    else{
-      self.restarCantidad()
-     // juego.gameOver() falta hacer 
-    }
-    
-    }
+    method restarCantidad(){
+      barra.get(posiciones
+      ).vidaPerdida()
+      posiciones += 1        
+    }   
 
 }
 
-object limite{
-  const property image = "pruebaLimite.png"
-//  const width = 50
-//  const height = 50
-  const property position = game.at(0, 0)
-  
-  method addVisual(){
-    game.addVisual(self)
-  }
-
-  method chocar(objeto,unaAccion){
-    game.whenCollideDo(objeto, unaAccion)
-  }
-}

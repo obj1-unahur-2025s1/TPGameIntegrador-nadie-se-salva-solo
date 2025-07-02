@@ -2,9 +2,22 @@ import puntuacion.*
 import juego.*
 import vida.*
 
+
 object menu {
   method image() = "menuInicial1.png"
   method position() = game.origin()
+}
+
+object gameOver{
+   method image() = "gameOver1.png"
+   method position() = game.origin()
+   
+
+   method configuracion(){
+      juego.reiniciar()
+      game.addVisual(self)
+      keyboard.enter().onPressDo({game.removeVisual(self)})
+   }
 }
 
 class Dificultad{
@@ -24,9 +37,8 @@ class Dificultad{
          self.empezar()
          barraDeVida.addVisual()
          puntos.addVisual()
-         keyboard.enter().onPressDo({juego.reiniciar()})		
-         //limite.addVisual()
-       //  game.addVisual(limite)  
+         keyboard.enter().onPressDo({gameOver.configuracion()})
+           
       }
    }
 

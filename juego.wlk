@@ -13,6 +13,7 @@ object juego{
 	const posicionesPosibles = [] 	
 	var property listaLetras = []
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
+	const musica = new Sonido(sonido = "musicaFacil.mp3")
 	// 36 es el limite maximo de X e Y
 	// 12 es el limite de Y donde la tecla impacta con usuario
 	
@@ -25,16 +26,15 @@ object juego{
 		game.addVisual(menu)  	
 		keyboard.f().onPressDo({self.modoFacil()})
 		keyboard.d().onPressDo({self.modoDificil()})
-		keyboard.enter().onPressDo({self.reiniciar()})				
+		keyboard.enter().onPressDo({self.reiniciar()})
+		game.schedule(100, {self.reproducirMusica()})				
 		game.start()   		
 	}
+	
 
 	method modoFacil(){
 		dificultad = new Dificultad(velCaidaInicial= 2000, cantidadLetras= 5,velocidadAparicion = 2000, image = "modoFacil.png")
-		dificultad.configuracion()
-		
-		
-	// dificultad.configuracion()		
+		dificultad.configuracion()			
 	}
 	
 	method modoDificil(){
@@ -61,12 +61,6 @@ object juego{
 		}       
     }	
 
-	method generarLetraAleatoria(velocidad,unaCantidad){
-			
-		
-		
-		
-	}
 	method agregarLetraSiEsPosible(velocidad,unaCantidad){	
 
 		var letra = self.abc().anyOne()
@@ -130,12 +124,21 @@ object juego{
 		const letras =[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z]
 		return letras
 	}
+
+	method reproducirMusica(){
+		musica.reproducir()
+		game.onTick(146000, "musica", {musica.reproducir()})
+	}
 	
-
-	
-
-	
-
-
 }
 
+class Sonido{
+	const property sonido 
+	
+	method reproducir(){
+		game.sound(sonido).play()
+	}
+	method parar(){
+		game.sound(sonido).stop()
+	}
+}
