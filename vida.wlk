@@ -27,17 +27,28 @@ object barraDeVida{
     }
     method removeVisual(){
       barra.forEach({v => game.removeVisual(v)})
-    }
+    }    
 
     method reiniciar(){
       barra.forEach({c => c.reinicio()})
       posiciones = 0
     }
+
+    method cantidadVidas(){
+      return cantidad
+    }
     method restarCantidad(){
-      barra.get(posiciones
-      ).vidaPerdida()
-      posiciones += 1        
+      barra.get(posiciones).vidaPerdida()
+      cantidad -= 1
+      posiciones += 1
+      self.perder()  
     }   
+
+    method perder(){
+      if(cantidad==0){
+        gameOver.configuracion()
+      }  
+    }
 
 }
 

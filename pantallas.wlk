@@ -13,10 +13,13 @@ object gameOver{
    method position() = game.origin()
    
 
-   method configuracion(){
+   method configuracion(){      
       juego.reiniciar()
       game.addVisual(self)
       keyboard.enter().onPressDo({game.removeVisual(self)})
+      puntos.addVisual()
+      puntos.reubicar()
+
    }
 }
 
