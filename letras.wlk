@@ -1,5 +1,6 @@
 import juego.*
 import vida.*
+import puntuacion.*
 class Letras{
     
     var property position = game.center()
@@ -27,11 +28,13 @@ class Letras{
    
 
     method destruir(){
-       juego.listaLetras().remove(self.letra())
-       image = "explosion1.png"
-       game.onTick(500, "boom", {self.removeVisual()})
-       esVisible = false
-
+        if(esVisible){
+         juego.listaLetras().remove(self.letra())
+         image = "explosion1.png"
+         game.onTick(500, "boom", {self.removeVisual()})
+         puntos.sumarPuntaje(puntaje)
+         esVisible = false
+        }       
     }
 
     method iniciarCaida(tiempo){

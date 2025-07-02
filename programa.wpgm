@@ -8,7 +8,7 @@ program Game {
 	 
 	// puntuacion
 	// aumentar dificultad por puntuacion (velocidad caida, letras en pantalla y velocidad aparicion )	
-	// game over solo falta hacer que aparezca la escena
+	// game over hacer que funcione como otra pantalla mas
 
 	// extras: que roten las letras, letras especiales
 
