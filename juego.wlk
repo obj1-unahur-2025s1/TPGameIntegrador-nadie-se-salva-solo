@@ -20,28 +20,31 @@ object juego{
 	
 	
 	method iniciar(){
-		game.cellSize(15)
-		game.width(40)
-		game.height(40)	
-  		game.title("bombardeo de letras")
-		game.addVisual(menu)  	
-		keyboard.f().onPressDo({self.modoFacil()})
-		keyboard.d().onPressDo({self.modoDificil()})
-		keyboard.enter().onPressDo({self.reiniciar()})
-		keyboard.p().onPressDo({musica.reproducir()})
-		keyboard.o().onPressDo({musica.sonido().stop()})
-		
-		game.start()   		
+		if(estaEnMenu){
+			game.cellSize(15)
+			game.width(40)
+			game.height(40)	
+  			game.title("bombardeo de letras")
+			game.addVisual(menu)  	
+			keyboard.f().onPressDo({self.modoFacil()})
+			keyboard.d().onPressDo({self.modoDificil()})
+			keyboard.enter().onPressDo({self.reiniciar()})
+			game.start()
+		}
+		   		
 	}
 	
 
 	method modoFacil(){
-		dificultad = new Dificultad(velCaidaInicial= 2000, cantidadLetras= 5,velocidadAparicion = 2000, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
+		dificultad = new Dificultad(vel = 2000, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
+		//dificultad.atributos().addAll([new Velocidad(valorInicial=2000),new Cantidad(valorInicial=5),new Velocidad(valorInicial=2000)])
+		
 		dificultad.configuracion()			
 	}
 	
 	method modoDificil(){
-		dificultad = new Dificultad(velCaidaInicial= 1000, cantidadLetras= 8,velocidadAparicion = 1000, image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))
+		dificultad = new Dificultad(vel = 1000, cant = 8 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
+		
 		dificultad.configuracion()
 	}
 
@@ -64,7 +67,7 @@ object juego{
 		gameOver.configuracion()
 	}	
 
-	method agregarLetraSiEsPosible(velocidad,unaCantidad){	
+	method agregarLetraSiEsPosible(unaCantidad,velocidad){	
 
 		var letra = self.abc().anyOne()
 

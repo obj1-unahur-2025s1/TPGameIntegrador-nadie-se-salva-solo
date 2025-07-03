@@ -2,6 +2,7 @@ import juego.*
 import vida.*
 import puntuacion.*
 import sonido.*
+import pantallas.*
 class Letras{    
     var property position = 0
     var property image
@@ -9,7 +10,7 @@ class Letras{
     var property velocidadCaida = 0
     const property puntaje
     var property esVisible = false
-    const ruido = new Sonido(cancion ="explosion2.mp3")
+    const ruido = game.sound("explosion2.mp3")
 
     method moverHaciaAbajo(cantCeldas){
         position = game.at(position.x(),position.y() - cantCeldas)
@@ -44,7 +45,7 @@ class Letras{
 
     method ocultar(){
         esVisible = false
-        console.println(letra)
+        
     }
    
 
@@ -54,6 +55,7 @@ class Letras{
          image = "explosion1.png"
          game.onTick(500, "boom", {self.removeVisual()})
          puntos.sumarPuntaje(puntaje)
+         juego.dificultad().aumentarDificultad(puntos.numero(),controlPuntaje)
          self.explosion()
          self.ocultar()
         }       
@@ -73,7 +75,8 @@ class Letras{
     }
 
     method explosion(){
-        ruido.reproducir()
+        ruido.volume(0.3)
+        ruido.play()
     }
 
 

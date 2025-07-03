@@ -25,7 +25,7 @@ object gameOver{
          juego.listaLetras().clear()         
 			barraDeVida.removeVisual()
 			barraDeVida.reiniciar()
-         juego.dificultad().resetearVelocidades()         
+         //juego.dificultad().resetearVelocidades()         
          game.removeTickEvent("letra")
 			game.removeTickEvent("caida")
          game.removeTickEvent("musica")
@@ -38,13 +38,16 @@ object gameOver{
 }
 
 class Dificultad{
-   var velCaidaInicial
-   var cantidadLetras
-   var velocidadAparicion 
+   var vel 
+   var cant
+   const velCaida = new Velocidad(valorInicial = vel)
+   const cantLetras = new Cantidad(valorInicial = cant)
+   const velAparicion =  new Velocidad(valorInicial = vel)
+   const property atributos=[velCaida,cantLetras,velAparicion] //velocidadCaida,cantidadLetras,velocidadAparicion 
    const property image
    method position() = game.origin()
    const property musica
-   
+
 
    method configuracion(){
       if(juego.estaEnMenu()){
@@ -58,9 +61,8 @@ class Dificultad{
          puntos.addVisual()
          puntos.ubicar()
          keyboard.enter().onPressDo({juego.rendirse()})
-         musica.reproducir()
-         game.onTick(14500, "musica", {musica.reproducir()})
-                  
+         musica.reproducir(true)
+         musica.cambiarVolumen(0.2)                  
       }
    }
 
@@ -69,41 +71,78 @@ class Dificultad{
    }
 
    method empezar(){
-      game.onTick(velocidadAparicion, "letra", {juego.agregarLetraSiEsPosible(velCaidaInicial,cantidadLetras)})      
+      game.onTick(atributos.get(0).valorInicial(), "letra", {juego.agregarLetraSiEsPosible(atributos.get(1).valorInicial(),atributos.get(2).valorInicial())})      
    }  
    
-   method aumentarVelocidad(){
-      velCaidaInicial = (velCaidaInicial -  100).max(0)
-      console.println(velCaidaInicial)
+   method aumentarDificultad(puntajeActual,ultimoPuntaje){
+            
+      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 50){
+         atributos.anyOne().aumentarValor()
+         ultimoPuntaje.actualizarUltimoPuntaje()
+
+         console.println("velocidad" +atributos.get(0).valorInicial() +"cantidad"+ atributos.get(1).valorInicial() +"velocidad"+ atributos.get(2).valorInicial())
+
+                  
+      }      
    }
 
-   method aumentarvelocidadAparicion(){
-      velocidadAparicion = (velocidadAparicion -  100).max(0)
-   }
-
-   method resetearVelocidades(){
+   
+   
+   
+    method resetearVelocidades(){
       
-   }
-
-   method cambiarCantLetras(){
-      cantidadLetras += 1
    }
 }
 
+
+
+
 class Facil inherits Dificultad{
     
-   override method resetearVelocidades(){
-         velCaidaInicial = 2000
-         velocidadAparicion = 2000
-   }
+   
 
    
    
 }
 
 class Dificil inherits Dificultad{
-   override method resetearVelocidades(){
-         velCaidaInicial = 2000
-         velocidadAparicion = 2000
+  
+}
+
+class Atributo{
+   var valorInicial  
+
+   method valorInicial(){
+      return valorInicial
+   }
+   method aumentarValor(){
+      
+   }
+   method cambiarValor(unValor){
+      valorInicial = unValor
+   }  
+}
+object controlPuntaje{
+   var ultimoPuntaje = puntos.numero()
+
+   method ultimoPuntaje(){
+      return ultimoPuntaje
+   }
+
+   method actualizarUltimoPuntaje(){
+      ultimoPuntaje = puntos.numero()
+   }
+}
+
+
+class Velocidad inherits Atributo{
+   override method aumentarValor(){
+      valorInicial -= 100
+   }
+}
+
+class Cantidad inherits Atributo{
+   override method aumentarValor(){
+      valorInicial += 1
    }
 }

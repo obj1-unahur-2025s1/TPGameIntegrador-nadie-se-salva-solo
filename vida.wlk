@@ -48,7 +48,7 @@ object barraDeVida{
 
     method perder(){
       if(cantidad==0){       
-        gameOver.configuracion()
+        juego.rendirse()
       }  
     }
 

@@ -1,3 +1,4 @@
+import juego.*
 class Numero{
      
     var property position = game.at(0, 0)
@@ -6,12 +7,13 @@ class Numero{
 
     method cambiarNumero(unNumero){
         numero = unNumero
-    }
-
-    
+    }    
 
     method image() = ""+ numero + ".png"
 
+    method numero(){
+        return numero
+    }
 
     method reubicar(posX,posY){
         position = game.at(posX,posY)
@@ -20,21 +22,24 @@ class Numero{
 }
 
 object puntos{      
-    const puntuacion = [new Numero(),new Numero(),new Numero(),new Numero(),new Numero()]
-    var puntos = 0
+    const property puntuacion = [new Numero(),new Numero(),new Numero(),new Numero(),new Numero()]
+    var numero = 0
+
     method addVisual(){
      puntuacion.forEach({v => game.addVisual(v)})
     }
+
+    method numero(){
+        return numero
+    }
+
     method removeVisual(){
     puntuacion.forEach({v => game.removeVisual(v)})
     }
+
     method resetearPuntuacion(){
-        puntos = 0
-        puntuacion.get(0).cambiarNumero(0)
-        puntuacion.get(1).cambiarNumero(0)
-        puntuacion.get(2).cambiarNumero(0)
-        puntuacion.get(3).cambiarNumero(0)
-        puntuacion.get(4).cambiarNumero(0)
+        numero = 0
+        puntuacion.forEach({p => p.cambiarNumero(0)})        
     }
 
     method ubicar(){
@@ -55,8 +60,8 @@ object puntos{
     }
 
     method sumarPuntaje(unNumero){
-        puntos = puntos + unNumero
-        var unidad = puntos % 10
+        numero = numero + unNumero        
+        var unidad = numero % 10
         puntuacion.get(0).cambiarNumero(unidad)
         self.sumarDecimal()
         self.sumarCentena()
@@ -64,22 +69,22 @@ object puntos{
         self.sumarDecenaMil()             
     }
     method sumarDecimal(){
-        var decimal = ((puntos/10).truncate(0))%10
+        var decimal = ((numero/10).truncate(0))%10
         puntuacion.get(1).cambiarNumero(decimal)       
     }
 
     method sumarCentena(){
-        var centena = ((puntos/100).truncate(0)%10)
+        var centena = ((numero/100).truncate(0)%10)
         puntuacion.get(2).cambiarNumero(centena)        
     }
 
     method sumarUnidadMil(){
-        var unidadMil = ((puntos/1000).truncate(0)%10)
+        var unidadMil = ((numero/1000).truncate(0)%10)
         puntuacion.get(3).cambiarNumero(unidadMil)    
     }
 
     method sumarDecenaMil(){
-        var decenaMil =((puntos/10000).truncate(0)%10)
+        var decenaMil =((numero/10000).truncate(0)%10)
         puntuacion.get(4).cambiarNumero(decenaMil)
     }
 }
