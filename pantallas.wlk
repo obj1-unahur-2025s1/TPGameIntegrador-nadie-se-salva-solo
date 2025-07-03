@@ -76,10 +76,10 @@ class Dificultad{
    
    method aumentarDificultad(puntajeActual,ultimoPuntaje){
             
-      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 50){
+      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 25){
          atributos.anyOne().aumentarValor()
          ultimoPuntaje.actualizarUltimoPuntaje()
-
+         console.println(puntos.numero())
          console.println("velocidad" +atributos.get(0).valorInicial() +"cantidad"+ atributos.get(1).valorInicial() +"velocidad"+ atributos.get(2).valorInicial())
 
                   
