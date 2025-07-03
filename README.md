@@ -1,4 +1,4 @@
-# Nombre del juego (<- borrar y completar)
+#Bombardeo de letras
 
 ## Equipo de desarrollo
 
