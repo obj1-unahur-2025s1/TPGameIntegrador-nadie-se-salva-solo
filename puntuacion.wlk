@@ -1,6 +1,6 @@
 class Numero{
-    var x 
-    var property position = game.at(x, 0)
+     
+    var property position = game.at(0, 0)
     var numero = 0
     var image = "0.png"
 
@@ -19,9 +19,8 @@ class Numero{
     
 }
 
-object puntos{
-                            // primer cero, unidad                            segundo cero, decimal 
-    const puntuacion = [new Numero(x=36,numero = 0),new Numero(x=34,numero = 0),new Numero(x=32,numero = 0),new Numero(x=30,numero = 0),new Numero(x=28,numero = 0)]
+object puntos{      
+    const puntuacion = [new Numero(),new Numero(),new Numero(),new Numero(),new Numero()]
     var puntos = 0
     method addVisual(){
      puntuacion.forEach({v => game.addVisual(v)})
@@ -29,13 +28,30 @@ object puntos{
     method removeVisual(){
     puntuacion.forEach({v => game.removeVisual(v)})
     }
+    method resetearPuntuacion(){
+        puntos = 0
+        puntuacion.get(0).cambiarNumero(0)
+        puntuacion.get(1).cambiarNumero(0)
+        puntuacion.get(2).cambiarNumero(0)
+        puntuacion.get(3).cambiarNumero(0)
+        puntuacion.get(4).cambiarNumero(0)
+    }
+
+    method ubicar(){
+        puntuacion.get(0).reubicar(36,0)
+        puntuacion.get(1).reubicar(34,0)
+        puntuacion.get(2).reubicar(32,0)
+        puntuacion.get(3).reubicar(30,0)
+        puntuacion.get(4).reubicar(28,0)
+    }
 
     method reubicar(){
-        puntuacion.get(0).reubicar(17,24)
-        puntuacion.get(1).reubicar(19,24)
+        self.addVisual()
+        puntuacion.get(0).reubicar(25,24)
+        puntuacion.get(1).reubicar(23,24)
         puntuacion.get(2).reubicar(21,24)
-        puntuacion.get(3).reubicar(23,24)
-        puntuacion.get(4).reubicar(25,24)
+        puntuacion.get(3).reubicar(19,24)
+        puntuacion.get(4).reubicar(17,24)
     }
 
     method sumarPuntaje(unNumero){
@@ -45,9 +61,7 @@ object puntos{
         self.sumarDecimal()
         self.sumarCentena()
         self.sumarUnidadMil()
-        self.sumarDecenaMil()    
-        
-        console.println(puntos)       
+        self.sumarDecenaMil()             
     }
     method sumarDecimal(){
         var decimal = ((puntos/10).truncate(0))%10

@@ -3,12 +3,10 @@ import juego.*
 
 
 program Game {
-	juego.iniciar()	
-
-	 
-	// puntuacion
+	juego.iniciar()		 
+	
 	// aumentar dificultad por puntuacion (velocidad caida, letras en pantalla y velocidad aparicion )	
-	// game over hacer que funcione como otra pantalla mas
+	
 
 	// extras: que roten las letras, letras especiales
 

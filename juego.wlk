@@ -3,19 +3,20 @@ import wollok.game.*
 import letras.*
 import pantallas.*
 import puntuacion.*
-
+import sonido.*
 
     
 
 object juego{
-	var property estaEnMenu = true	
-	var dificultad = null
+	var property estaEnMenu = true
+	var property estaJugando = false
+	var property perdio = false	
+	var property dificultad = null
 	const posicionesPosibles = [] 	
 	var property listaLetras = []
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
-	const musica = new Sonido(sonido = "musicaFacil.mp3")
-	// 36 es el limite maximo de X e Y
-	// 12 es el limite de Y donde la tecla impacta con usuario
+	
+	const musica = new Sonido(cancion = "musicaDificil.mp3")
 	
 	
 	method iniciar(){
@@ -27,18 +28,20 @@ object juego{
 		keyboard.f().onPressDo({self.modoFacil()})
 		keyboard.d().onPressDo({self.modoDificil()})
 		keyboard.enter().onPressDo({self.reiniciar()})
-		game.schedule(100, {self.reproducirMusica()})				
+		keyboard.p().onPressDo({musica.reproducir()})
+		keyboard.o().onPressDo({musica.sonido().stop()})
+		
 		game.start()   		
 	}
 	
 
 	method modoFacil(){
-		dificultad = new Dificultad(velCaidaInicial= 2000, cantidadLetras= 5,velocidadAparicion = 2000, image = "modoFacil.png")
+		dificultad = new Dificultad(velCaidaInicial= 2000, cantidadLetras= 5,velocidadAparicion = 2000, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
 		dificultad.configuracion()			
 	}
 	
 	method modoDificil(){
-		dificultad = new Dificultad(velCaidaInicial= 1000, cantidadLetras= 8,velocidadAparicion = 1000, image = "modoDificil.png")
+		dificultad = new Dificultad(velCaidaInicial= 1000, cantidadLetras= 8,velocidadAparicion = 1000, image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))
 		dificultad.configuracion()
 	}
 
@@ -47,19 +50,19 @@ object juego{
 	}
 
 	method reiniciar(){
-		if(not estaEnMenu){
-			listaLetras.clear()
-			game.removeTickEvent("letra")
-			game.removeTickEvent("caida")
-	  		game.removeVisual(dificultad)
-			game.addVisual(menu)
-			dificultad.detener()
-			barraDeVida.removeVisual()
-			barraDeVida.reiniciar()
+		if(perdio){			
+	  		game.removeVisual(gameOver)
+			game.addVisual(menu)			
 			puntos.removeVisual()
-	 		estaEnMenu = true			
+			puntos.resetearPuntuacion()
+	 		estaEnMenu = true
+			perdio = false			
 		}       
-    }	
+    }
+
+	method rendirse(){
+		gameOver.configuracion()
+	}	
 
 	method agregarLetraSiEsPosible(velocidad,unaCantidad){	
 
@@ -125,20 +128,6 @@ object juego{
 		return letras
 	}
 
-	method reproducirMusica(){
-		musica.reproducir()
-		game.onTick(146000, "musica", {musica.reproducir()})
-	}
 	
 }
 
-class Sonido{
-	const property sonido 
-	
-	method reproducir(){
-		game.sound(sonido).play()
-	}
-	method parar(){
-		game.sound(sonido).stop()
-	}
-}

@@ -1,4 +1,5 @@
 import pantallas.*
+import juego.*
 
 
 class Vida{
@@ -32,6 +33,7 @@ object barraDeVida{
     method reiniciar(){
       barra.forEach({c => c.reinicio()})
       posiciones = 0
+      cantidad = 3
     }
 
     method cantidadVidas(){
@@ -42,10 +44,10 @@ object barraDeVida{
       cantidad -= 1
       posiciones += 1
       self.perder()  
-    }   
+    }       
 
     method perder(){
-      if(cantidad==0){
+      if(cantidad==0){       
         gameOver.configuracion()
       }  
     }
