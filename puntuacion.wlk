@@ -61,30 +61,29 @@ object puntos{
 
     method sumarPuntaje(unNumero){
         numero = numero + unNumero        
-        var unidad = numero % 10
-        puntuacion.get(0).cambiarNumero(unidad)
+        puntuacion.get(0).cambiarNumero(numero % 10)
         self.sumarDecimal()
         self.sumarCentena()
         self.sumarUnidadMil()
         self.sumarDecenaMil()             
     }
     method sumarDecimal(){
-        var decimal = ((numero/10).truncate(0))%10
+        const decimal = ((numero/10).truncate(0))%10
         puntuacion.get(1).cambiarNumero(decimal)       
     }
 
     method sumarCentena(){
-        var centena = ((numero/100).truncate(0)%10)
+        const centena = ((numero/100).truncate(0)%10)
         puntuacion.get(2).cambiarNumero(centena)        
     }
 
     method sumarUnidadMil(){
-        var unidadMil = ((numero/1000).truncate(0)%10)
+        const unidadMil = ((numero/1000).truncate(0)%10)
         puntuacion.get(3).cambiarNumero(unidadMil)    
     }
 
     method sumarDecenaMil(){
-        var decenaMil =((numero/10000).truncate(0)%10)
+        const decenaMil =((numero/10000).truncate(0)%10)
         puntuacion.get(4).cambiarNumero(decenaMil)
     }
 }

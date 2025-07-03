@@ -3,13 +3,7 @@ import juego.*
 
 
 program Game {
-	juego.iniciar()		 
+	juego.iniciar()		
 	
-	// aumentar dificultad por puntuacion (velocidad caida, letras en pantalla y velocidad aparicion )	
-	
-
 	// extras: que roten las letras, letras especiales
-
-	
-
 }

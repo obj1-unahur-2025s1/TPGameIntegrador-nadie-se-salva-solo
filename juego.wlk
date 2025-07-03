@@ -14,31 +14,24 @@ object juego{
 	var property dificultad = null
 	const posicionesPosibles = [] 	
 	var property listaLetras = []
-	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
-	
+	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]	
 	const musica = new Sonido(cancion = "musicaDificil.mp3")
 	
 	
-	method iniciar(){
-		if(estaEnMenu){
+	method iniciar(){		
 			game.cellSize(15)
 			game.width(40)
 			game.height(40)	
   			game.title("bombardeo de letras")
 			game.addVisual(menu)  	
-			keyboard.f().onPressDo({self.modoFacil()})
-			keyboard.d().onPressDo({self.modoDificil()})
-			keyboard.enter().onPressDo({self.reiniciar()})
-			game.start()
-		}
-		   		
+			keyboard.num1().onPressDo({self.modoFacil()})
+			keyboard.num2().onPressDo({self.modoDificil()})			
+			game.start()			   		
 	}
 	
 
 	method modoFacil(){
-		dificultad = new Dificultad(vel = 2000, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
-		//dificultad.atributos().addAll([new Velocidad(valorInicial=2000),new Cantidad(valorInicial=5),new Velocidad(valorInicial=2000)])
-		
+		dificultad = new Dificultad(vel = 1500, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
 		dificultad.configuracion()			
 	}
 	
@@ -58,6 +51,9 @@ object juego{
 			game.addVisual(menu)			
 			puntos.removeVisual()
 			puntos.resetearPuntuacion()
+			controlPuntaje.resetarControlPuntaje()
+			controlPuntaje.resetearLimiteMasLetras()
+			gameOver.musica().parar()		
 	 		estaEnMenu = true
 			perdio = false			
 		}       
@@ -69,7 +65,7 @@ object juego{
 
 	method agregarLetraSiEsPosible(unaCantidad,velocidad){	
 
-		var letra = self.abc().anyOne()
+		const letra = self.abc().anyOne()
 
 		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra.letra())){
 			letra.cambiarPosicion(self.algunaPosicion())
