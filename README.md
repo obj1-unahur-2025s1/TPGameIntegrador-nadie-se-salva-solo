@@ -1,6 +1,6 @@
 #Bombardeo de letras
 
-Cosas a agregar : Agregar música en la pantalla de inicio. Letras de colres. Que roten las letras al llegar a una puntuación. Cuando tocas una letra que no está en pantalla resta puntos o vida. Pedir al final el nombre del jugador y mostrar la lista de los Highscores. hacer fluido la caida
+Cosas a agregar : Letras de colres. Que roten las letras al llegar a una puntuación. Cuando tocas una letra que no está en pantalla resta puntos o vida. Pedir al final el nombre del jugador y mostrar la lista de los Highscores. hacer fluido la caida
 
 ## Equipo de desarrollo
 

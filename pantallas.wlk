@@ -55,6 +55,7 @@ class Dificultad{
    method configuracion(){
       if(juego.estaEnMenu()){
          juego.estaEnMenu(false)
+         juego.musica().parar()
          juego.cambiarDificultad(self)
          juego.estaJugando(true)         
          game.removeVisual(menu)

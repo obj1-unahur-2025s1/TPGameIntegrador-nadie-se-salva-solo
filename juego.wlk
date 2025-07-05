@@ -15,7 +15,7 @@ object juego{
 	const posicionesPosibles = [] 	
 	var property listaLetras = []
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]	
-	const musica = new Sonido(cancion = "musicaDificil.mp3")
+	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
 	
 	
 	method iniciar(){		
@@ -25,8 +25,14 @@ object juego{
   			game.title("bombardeo de letras")
 			game.addVisual(menu)  	
 			keyboard.num1().onPressDo({self.modoFacil()})
-			keyboard.num2().onPressDo({self.modoDificil()})			
+			keyboard.num2().onPressDo({self.modoDificil()})
+			self.configuracion()
+
 			game.start()			   		
+	}
+
+	method configuracion(){
+		musica.reproducir(true)	
 	}
 	
 
@@ -53,7 +59,9 @@ object juego{
 			puntos.resetearPuntuacion()
 			controlPuntaje.resetarControlPuntaje()
 			controlPuntaje.resetearLimiteMasLetras()
-			gameOver.musica().parar()		
+			gameOver.musica().parar()
+			self.configuracion()
+	
 	 		estaEnMenu = true
 			perdio = false			
 		}       

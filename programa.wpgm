@@ -3,7 +3,5 @@ import juego.*
 
 
 program Game {
-	juego.iniciar()		
-	
-	// extras: que roten las letras, letras especiales
+	juego.iniciar()	
 }
