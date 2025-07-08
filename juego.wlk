@@ -13,7 +13,7 @@ object juego{
 	var property perdio = false	
 	var property dificultad = null
 	const posicionesPosibles = [] 	
-	var property listaLetras = []
+	const property listaLetras = []
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]	
 	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
 	
@@ -37,12 +37,12 @@ object juego{
 	
 
 	method modoFacil(){
-		dificultad = new Dificultad(vel = 1500, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
+		dificultad = new Facil(vel = 1500, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
 		dificultad.configuracion()			
 	}
 	
 	method modoDificil(){
-		dificultad = new Dificultad(vel = 1000, cant = 8 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
+		dificultad = new Dificil(vel = 1000, cant = 8 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
 		
 		dificultad.configuracion()
 	}
@@ -59,6 +59,7 @@ object juego{
 			puntos.resetearPuntuacion()
 			controlPuntaje.resetarControlPuntaje()
 			controlPuntaje.resetearLimiteMasLetras()
+			controlPuntaje.resetearLimiteColores()
 			gameOver.musica().parar()
 			self.configuracion()
 	
@@ -80,7 +81,7 @@ object juego{
 			letra.addVisual()
 			letra.iniciarCaida(velocidad)			
 			listaLetras.add(letra.letra())
-			keyboard.letter(letra.letra()).onPressDo({letra.destruir()})		
+			keyboard.letter(letra.letra()).onPressDo({letra.destruir()})	
 		}
 	}
 
@@ -109,7 +110,7 @@ object juego{
 		const b = new Letras(image = "Bu.png",letra = "B",puntaje = 3)
 		const c = new Letras(image = "Cu.png",letra = "C",puntaje = 1)
 		const d = new Letras(image = "Du.png",letra = "D",puntaje = 1)
-		const e = new Letras(image = "Eu.png",letra = "E",puntaje = 1)
+		const e = new Letras(image = "Eu2.png",letra = "E",puntaje = 1)
 		const f = new Letras(image = "Fu.png",letra = "F",puntaje = 1)
 		const g = new Letras(image = "Gu.png",letra = "G",puntaje = 2)
 		const h = new Letras(image = "Hu.png",letra = "H",puntaje = 2)
@@ -130,7 +131,7 @@ object juego{
 		const w = new Letras(image = "Wu.png",letra = "W",puntaje = 3)
 		const x = new Letras(image = "Xu.png",letra = "X",puntaje = 3)
 		const y = new Letras(image = "Yu.png",letra = "Y",puntaje = 3)
-		const z = new Letras(image = "Zu.png",letra = "Z",puntaje = 3)
+		const z = new Letras(image = "Zu.png",letra = "Z",puntaje = 3)		
 		const letras =[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z]
 		return letras
 	}

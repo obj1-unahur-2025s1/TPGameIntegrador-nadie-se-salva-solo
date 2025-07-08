@@ -10,11 +10,14 @@ class Letras{
     var property velocidadCaida = 0
     const property puntaje
     var property esVisible = false
-    const ruido = game.sound("explosion2.mp3")
+    const explosion = new Sonido(cancion = "explosion2.mp3")
+    const error = new Sonido(cancion = "error.mp3")
+    const risa = new Sonido(cancion="perderVida.mp3")
+    const aparicion = new Sonido(cancion = "aumentarCaida.mp3")
+    const aumentar = new Sonido(cancion= "aumentarVida.mp3")
+    const frenar = new Sonido(cancion="frenarCaida.mp3")
 
-    method moverHaciaAbajo(cantCeldas){
-        position = game.at(position.x(),position.y() - cantCeldas)
-    }
+    
 
     method caer(){
         if(esVisible){
@@ -35,8 +38,9 @@ class Letras{
             barraDeVida.restarCantidad()        
             image = "impacto.png"
             self.explosion()
-            game.onTick(500, "boom", {self.removeVisual()})
-            game.onTick(600, "reubicar", {self.cambiarPosicion(36)})
+             juego.listaLetras().remove(self.letra())
+            game.schedule(500, {self.removeVisual()})
+            game.schedule(600,{self.cambiarPosicion(36)})
             self.ocultar()
         }
         
@@ -45,7 +49,6 @@ class Letras{
 
     method ocultar(){
         esVisible = false
-        
     }
    
 
@@ -53,12 +56,25 @@ class Letras{
         if(esVisible and juego.estaJugando()){
          juego.listaLetras().remove(self.letra())
          image = "explosion1.png"
-         game.onTick(500, "boom", {self.removeVisual()})
+         game.schedule(500, {self.removeVisual()})
          puntos.sumarPuntaje(puntaje)
          juego.dificultad().aumentarDificultad(puntos.numero(),controlPuntaje)
          self.explosion()
          self.ocultar()
-        }       
+        }   
+    }
+
+    method detener(){
+        position = position.down(0)
+    }
+
+    method noEstaEnPantalla(){
+        if(!esVisible and juego.estaJugando()){
+            puntos.restarPuntaje(puntaje)
+            error.reproducir(false)
+            error.cambiarVolumen(0.3)
+        }
+        
     }
 
     method iniciarCaida(tiempo){
@@ -75,10 +91,81 @@ class Letras{
     }
 
     method explosion(){
-        ruido.volume(0.3)
-        ruido.play()
+        explosion.cambiarVolumen(0.3)
+        explosion.reproducir(false)
     }
 
 
 }
 
+class LetraNegra inherits Letras{
+    override method impactar(){
+            game.schedule(500, {self.removeVisual()})
+            game.schedule(600,{self.cambiarPosicion(36)})
+            self.ocultar()
+             juego.listaLetras().remove(self.letra())
+    }
+    override method destruir(){
+        if(esVisible and juego.estaJugando()){
+            image = "perderVida1.png"
+            game.schedule(1000, {self.removeVisual()})
+            self.ocultar()
+            risa.reproducir(false)
+            risa.cambiarVolumen(0.3)
+            barraDeVida.restarCantidad()
+            puntos.sumarPuntaje(puntaje)
+            juego.dificultad().aumentarDificultad(puntos.numero(),controlPuntaje)
+            juego.listaLetras().remove(self.letra())
+        }
+    }
+}
+
+class LetraRoja inherits LetraNegra{
+    override method destruir(){
+        
+        if(esVisible and juego.estaJugando()){
+            image = "aumentarCaida3.png"
+            game.schedule(1000, {self.removeVisual()})
+            self.ocultar()
+            aparicion.reproducir(false)
+            aparicion.cambiarVolumen(1)
+            juego.dificultad().atributos().get(2).aumentarValor()
+            juego.listaLetras().remove(self.letra())
+            puntos.sumarPuntaje(puntaje)                 
+            juego.dificultad().aumentarDificultad(puntos.numero(),controlPuntaje)   
+        }
+    }
+
+}
+
+class LetraVerde inherits LetraNegra{
+    override method destruir(){
+        if(esVisible and juego.estaJugando()){
+            image = "aumentarVida1.png"
+            game.schedule(1000, {self.removeVisual()})
+            self.ocultar()
+            aumentar.reproducir(false)
+            aumentar.cambiarVolumen(0.5)
+            barraDeVida.aumentarCantidad()
+            juego.listaLetras().remove(self.letra())
+            puntos.restarPuntaje(puntaje)
+        }
+    }
+}
+
+class LetraAmarilla inherits LetraNegra{
+    override method destruir(){
+        if(esVisible and juego.estaJugando()){
+            image = "frenarCaida2.png"
+            game.schedule(1000, {self.removeVisual()})
+            self.ocultar()
+            frenar.reproducir(false)
+            frenar.cambiarVolumen(0.3)
+            juego.dificultad().atributos().get(2).disminuirVelocidad()
+            juego.listaLetras().remove(self.letra())
+            puntos.restarPuntaje(puntaje)
+        }
+    }
+
+    
+}

@@ -1,3 +1,4 @@
+import letras.*
 import puntuacion.*
 import juego.*
 import vida.*
@@ -5,7 +6,7 @@ import sonido.*
 
 
 object menu {
-  method image() = "menuInicial2.png"
+  method image() = "menuInicial3.png"
   method position() = game.origin()
 }
 
@@ -30,6 +31,7 @@ object gameOver{
          game.removeTickEvent("letra")
 			game.removeTickEvent("caida")
          game.removeTickEvent("musica")
+         game.removeTickEvent("colores")
          juego.dificultad().pararMusica()
          musica.reproducir(true)       
          keyboard.m().onPressDo({juego.reiniciar()})           
@@ -77,15 +79,19 @@ class Dificultad{
    method empezar(){
       game.onTick(atributos.get(0).valorInicial(), "letra", {juego.agregarLetraSiEsPosible(atributos.get(1).valorInicial(),atributos.get(2).valorInicial())})
             
+   }
+   method disminuirVelociad(){
+      vel = vel + 300
    }  
    
    method aumentarDificultad(puntajeActual,ultimoPuntaje){            
       self.masRapidoYmasCantidad(puntajeActual, ultimoPuntaje)
-      self.generarMasLetras(puntajeActual,ultimoPuntaje)            
+      self.generarMasLetras(puntajeActual,ultimoPuntaje)
+      self.generarLetrasColor(puntajeActual,ultimoPuntaje)            
    }
 
    method masRapidoYmasCantidad(puntajeActual,ultimoPuntaje){
-      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 5){
+      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 10){
          atributos.get(posicion).aumentarValor()
          ultimoPuntaje.actualizarUltimoPuntaje()
          posicion = posicion + 1
@@ -97,11 +103,54 @@ class Dificultad{
 
    method generarMasLetras(puntajeActual,ultimoPuntaje){
       if(puntajeActual >= ultimoPuntaje.limiteMasLetras()){
-         game.onTick(600, "letra", {juego.agregarLetraSiEsPosible(atributos.get(1).valorInicial(),atributos.get(2).valorInicial())})        
-         console.println("oa <:")
+        // game.onTick(600, "letra", {juego.agregarLetraSiEsPosible(atributos.get(1).valorInicial(),atributos.get(2).valorInicial())})        
+         juego.agregarLetraSiEsPosible(27,200)
          ultimoPuntaje.actualizarLimiteMasLetras()
       }      
-   }  
+   }
+
+   method generarLetrasColor(puntajeActual,ultimoPuntaje){
+      if(puntajeActual >= ultimoPuntaje.limiteColores()){
+         game.onTick(8000, "colores", {self.generarLetraDeColor()})
+         ultimoPuntaje.actualizarLimiteColores()
+      }
+   }
+
+   method generarLetraDeColor(){
+      const letra = self.LetrasColores().anyOne()
+
+         letra.cambiarPosicion(juego.algunaPosicion())
+			letra.addVisual()
+			letra.iniciarCaida(500)			
+			juego.listaLetras().add(letra.letra())
+			keyboard.letter(letra.letra()).onPressDo({letra.destruir()})
+   }
+
+   method LetrasColores(){
+      const bN = new LetraNegra(image = "Bn.png", letra = "B", puntaje = 100)
+      const cN = new LetraNegra(image = "Cn2.png", letra = "C", puntaje =100)
+      const pN = new LetraNegra(image = "Pn2.png", letra = "P", puntaje = 100)
+      const rN = new LetraNegra(image = "Rn.png", letra = "R", puntaje = 100)
+      const aN = new LetraNegra(image = "An2.png", letra = "A", puntaje =100)
+      const bV = new LetraVerde(image = "Bv.png", letra = "B", puntaje = 50)
+      const pV = new LetraVerde(image = "Pv.png", letra = "P", puntaje = 50)
+      const dR = new LetraRoja(image = "Dr.png", letra = "D", puntaje = 25)
+      const gR = new LetraRoja(image = "Gr.png", letra = "G", puntaje = 25)
+      const jR = new LetraRoja(image = "Jr.png", letra = "J", puntaje = 25)
+      const mR = new LetraRoja(image = "Mr.png", letra = "M", puntaje = 25)
+      const nR = new LetraRoja(image = "Nr.png", letra = "N", puntaje = 25)
+      const tR = new LetraRoja(image = "Tr.png", letra = "T", puntaje = 25)
+      const xR = new LetraRoja(image = "Xr2.png", letra = "X", puntaje =25)
+      const yR = new LetraRoja(image = "Yr.png", letra = "Y", puntaje = 25)
+      const fA = new LetraAmarilla(image = "Fa.png", letra = "F",puntaje = 25)
+      const oA = new LetraAmarilla(image = "Oa.png", letra = "O",puntaje = 25)
+      const wA = new LetraAmarilla(image = "Wa.png", letra = "W",puntaje = 25)
+      const zA = new LetraAmarilla(image = "Za.png", letra = "Z",puntaje = 25)
+      const lista =[bN,cN,pN,rN,aN,bV,pV,dR,gR,jR,mR,nR,tR,xR,yR,fA,oA,wA,zA]
+      return lista      
+   }
+
+
     method resetearVelocidades(){
       
    }
@@ -122,22 +171,11 @@ class Dificil inherits Dificultad{
    }
 }
 
-class Atributo{
-   var valorInicial  
 
-   method valorInicial(){
-      return valorInicial
-   }
-   method aumentarValor(){
-      
-   }
-   method cambiarValor(unValor){
-      valorInicial = unValor
-   }  
-}
 object controlPuntaje{
    var ultimoPuntaje = puntos.numero()
-   var limiteMasLetras = 150
+   var limiteMasLetras = 250
+   var limiteColores = 150
 
    method ultimoPuntaje(){
       return ultimoPuntaje
@@ -162,13 +200,41 @@ object controlPuntaje{
    method resetearLimiteMasLetras(){
       limiteMasLetras = 150
    }
+
+   method limiteColores(){
+      return limiteColores
+   }
+
+   method actualizarLimiteColores(){
+      limiteColores = 99999999
+   }
+
+   method resetearLimiteColores(){
+      limiteColores = 150
+   }
    
 }
+class Atributo{
+   var valorInicial  
 
+   method valorInicial(){
+      return valorInicial
+   }
+   method aumentarValor(){
+      
+   }
+   method cambiarValor(unValor){
+      valorInicial = unValor
+   }  
+}
 
 class Velocidad inherits Atributo{
    override method aumentarValor(){
-      valorInicial = (valorInicial - 200).max(20)
+      valorInicial = (valorInicial - 200).max(0)
+   }
+
+   method disminuirVelocidad(){
+      valorInicial = valorInicial + 300
    }
 }
 

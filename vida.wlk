@@ -44,6 +44,14 @@ object barraDeVida{
       cantidad -= 1
       posiciones += 1
       self.perder()  
+    }
+    method aumentarCantidad(){
+      if(cantidad < 3){
+        cantidad += 1
+        posiciones -= 1
+        barra.get(posiciones).reinicio()
+      }
+      
     }       
 
     method perder(){

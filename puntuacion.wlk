@@ -37,6 +37,8 @@ object puntos{
     puntuacion.forEach({v => game.removeVisual(v)})
     }
 
+    
+
     method resetearPuntuacion(){
         numero = 0
         puntuacion.forEach({p => p.cambiarNumero(0)})        
@@ -59,32 +61,24 @@ object puntos{
         puntuacion.get(4).reubicar(17,24)
     }
 
+    method restarPuntaje(unNumero){
+        numero = (numero - unNumero).max(0)
+        self.cambiarPuntaje()
+    }
+   
+    
     method sumarPuntaje(unNumero){
         numero = numero + unNumero        
+        self.cambiarPuntaje()           
+    }
+
+    method cambiarPuntaje(){
         puntuacion.get(0).cambiarNumero(numero % 10)
-        self.sumarDecimal()
-        self.sumarCentena()
-        self.sumarUnidadMil()
-        self.sumarDecenaMil()             
+        puntuacion.get(1).cambiarNumero(((numero/10).truncate(0))%10)
+        puntuacion.get(2).cambiarNumero(((numero/100).truncate(0)%10))
+        puntuacion.get(3).cambiarNumero(((numero/1000).truncate(0)%10))
+        puntuacion.get(4).cambiarNumero(((numero/10000).truncate(0)%10))
     }
-    method sumarDecimal(){
-        const decimal = ((numero/10).truncate(0))%10
-        puntuacion.get(1).cambiarNumero(decimal)       
-    }
-
-    method sumarCentena(){
-        const centena = ((numero/100).truncate(0)%10)
-        puntuacion.get(2).cambiarNumero(centena)        
-    }
-
-    method sumarUnidadMil(){
-        const unidadMil = ((numero/1000).truncate(0)%10)
-        puntuacion.get(3).cambiarNumero(unidadMil)    
-    }
-
-    method sumarDecenaMil(){
-        const decenaMil =((numero/10000).truncate(0)%10)
-        puntuacion.get(4).cambiarNumero(decenaMil)
-    }
+   
 }
 
