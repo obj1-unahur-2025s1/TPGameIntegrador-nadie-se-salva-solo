@@ -31,7 +31,7 @@ class Letras{
     }
 
     method empezarARotar(){
-        game.onTick(1000, "rotar"+letra, {self.rotar()})
+        game.onTick(500, "rotar"+letra, {self.rotar()})
     }
 
     method rotar(){

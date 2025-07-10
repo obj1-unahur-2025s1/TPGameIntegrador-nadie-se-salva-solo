@@ -95,7 +95,7 @@ class Dificultad{
          unaLetra.empezarARotar()
       }
    }
-
+// puntaje actual 251 
    method masRapidoYmasCantidad(puntajeActual,ultimoPuntaje){
       if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 15){
          atributos.get(posicion).aumentarValor()

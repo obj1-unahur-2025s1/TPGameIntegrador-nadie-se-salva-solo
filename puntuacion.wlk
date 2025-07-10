@@ -73,9 +73,9 @@ object puntos{
     }
 
     method cambiarPuntaje(){
-        puntuacion.get(0).cambiarNumero(numero % 10)
-        puntuacion.get(1).cambiarNumero(((numero/10).truncate(0))%10)
-        puntuacion.get(2).cambiarNumero(((numero/100).truncate(0)%10))
+        puntuacion.get(0).cambiarNumero(numero % 10) // unidad
+        puntuacion.get(1).cambiarNumero(((numero/10).truncate(0))%10)// decimal
+        puntuacion.get(2).cambiarNumero(((numero/100).truncate(0)%10)) // unidad del 100
         puntuacion.get(3).cambiarNumero(((numero/1000).truncate(0)%10))
         puntuacion.get(4).cambiarNumero(((numero/10000).truncate(0)%10))
     }
