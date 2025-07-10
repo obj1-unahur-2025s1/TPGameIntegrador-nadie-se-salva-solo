@@ -16,6 +16,7 @@ class Letras{
     const aparicion = new Sonido(cancion = "aumentarCaida.mp3")
     const aumentar = new Sonido(cancion= "aumentarVida.mp3")
     const frenar = new Sonido(cancion="frenarCaida.mp3")
+    var posicion = 1
 
     
 
@@ -27,6 +28,18 @@ class Letras{
             self.impactar()           
         }
                      
+    }
+
+    method empezarARotar(){
+        game.onTick(1000, "rotar"+letra, {self.rotar()})
+    }
+
+    method rotar(){
+        image = letra + posicion + ".png"
+        posicion += 1
+        if(posicion >3){
+            posicion = 0
+        }
     }
 
     method cambiarPosicion(posicionX){
@@ -61,6 +74,7 @@ class Letras{
          juego.dificultad().aumentarDificultad(puntos.numero(),controlPuntaje)
          self.explosion()
          self.ocultar()
+         game.removeTickEvent("rotar"+letra)
         }   
     }
 

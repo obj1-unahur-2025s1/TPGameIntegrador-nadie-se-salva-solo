@@ -90,8 +90,14 @@ class Dificultad{
       self.generarLetrasColor(puntajeActual,ultimoPuntaje)            
    }
 
+   method checkRotar(unaLetra){
+      if(puntos.numero() > 200){
+         unaLetra.empezarARotar()
+      }
+   }
+
    method masRapidoYmasCantidad(puntajeActual,ultimoPuntaje){
-      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 10){
+      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 15){
          atributos.get(posicion).aumentarValor()
          ultimoPuntaje.actualizarUltimoPuntaje()
          posicion = posicion + 1
@@ -111,7 +117,7 @@ class Dificultad{
 
    method generarLetrasColor(puntajeActual,ultimoPuntaje){
       if(puntajeActual >= ultimoPuntaje.limiteColores()){
-         game.onTick(8000, "colores", {self.generarLetraDeColor()})
+         game.onTick(5000, "colores", {self.generarLetraDeColor()})
          ultimoPuntaje.actualizarLimiteColores()
       }
    }
@@ -234,7 +240,7 @@ class Velocidad inherits Atributo{
    }
 
    method disminuirVelocidad(){
-      valorInicial = valorInicial + 300
+      valorInicial = valorInicial + 200
    }
 }
 
