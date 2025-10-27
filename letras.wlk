@@ -3,6 +3,7 @@ import vida.*
 import puntuacion.*
 import sonido.*
 import pantallas.*
+
 class Letras{    
     var property position = 0
     var property image
@@ -20,7 +21,7 @@ class Letras{
 
     
 
-    method caer(){
+    method caer(){ //todas
         if(esVisible){
             position = position.down(1)            
         }
@@ -30,11 +31,11 @@ class Letras{
                      
     }
 
-    method empezarARotar(){
+    method empezarARotar(){ //simple
         game.onTick(500, "rotar"+letra, {self.rotar()})
     }
 
-    method rotar(){
+    method rotar(){ // simple
         image = letra + posicion + ".png"
         posicion += 1
         if(posicion >3){
@@ -42,16 +43,16 @@ class Letras{
         }
     }
 
-    method cambiarPosicion(posicionX){
+    method cambiarPosicion(posicionX){ // no se si es necesaria
         position = game.at(posicionX, 36)
     }
 
-    method impactar(){
+    method impactar(){ // todas
         if(esVisible ){
             barraDeVida.restarCantidad()        
             image = "impacto.png"
             self.explosion()
-             juego.listaLetras().remove(self.letra())
+            juego.listaLetras().remove(self.letra())
             game.schedule(500, {self.removeVisual()})
             game.schedule(600,{self.cambiarPosicion(36)})
             self.ocultar()
@@ -60,12 +61,12 @@ class Letras{
     }
 
 
-    method ocultar(){
+    method ocultar(){ // no se si es necesaria
         esVisible = false
     }
    
 
-    method destruir(){
+    method destruir(){ // todas
         if(esVisible and juego.estaJugando()){
          juego.listaLetras().remove(self.letra())
          image = "explosion1.png"
@@ -78,7 +79,7 @@ class Letras{
         }   
     }
 
-    method detener(){
+    method detener(){ // no se si es necesaria
         position = position.down(0)
     }
 

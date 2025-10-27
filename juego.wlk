@@ -4,6 +4,8 @@ import letras.*
 import pantallas.*
 import puntuacion.*
 import sonido.*
+import modoDeJuego.modoDificil.*
+import letrasPack.letraPadre.*
 
     
 
@@ -16,7 +18,12 @@ object juego{
 	const property listaLetras = []
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]	
 	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
-	
+
+
+	//prueba
+
+	var w1 = new LetraPadre(letra = "W",puntaje = 2)
+	var z1 = new LetraPadre(letra = "Z",puntaje = 2)		
 	
 	method iniciar(){		
 			game.cellSize(15)
@@ -27,6 +34,10 @@ object juego{
 			keyboard.num1().onPressDo({self.modoFacil()})
 			keyboard.num2().onPressDo({self.modoDificil()})
 			self.configuracion()
+
+			keyboard.w().onPressDo({w1.aparecer(15)})
+			keyboard.z().onPressDo({z1.aparecer(24)})
+			
 
 			game.start()			   		
 	}
@@ -42,7 +53,7 @@ object juego{
 	}
 	
 	method modoDificil(){
-		dificultad = new Dificil(vel = 1000, cant = 8 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
+		dificultad = new Dificil(vel = 200, cant = 99 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
 		
 		dificultad.configuracion()
 	}

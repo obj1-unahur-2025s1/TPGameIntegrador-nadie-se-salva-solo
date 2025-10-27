@@ -1,0 +1,26 @@
+patrones:
+
+	strategy en dificultades
+	composite en barra de vida y puntuacion
+	template method en letras
+	command para el manejo de letras en pantalla (que exploten las que se ven
+		y reste puntos por apreta una letra que no esta en pantalla)
+	observer para que cambie la vida o la puntuacion segun lo que pase con las letras
+		en pantallas
+
+cosas a agregar:
+	
+	modo extremo
+	hacer que reste puntos cuando se apreta una letra que no esta en pantalla
+	letra simple de piedra (que haya que apretar varias veces la letra para que se rompa)
+	leaderboard estilo arcade ej: https://assetstorev1-prd-cdn.unity3d.com/key-image/651f1d9e-0c9a-4f3a-b173-7c0026fbf8d0.png
+	nuevas letras de color (no es prioridad)
+
+
+bugs:
+	las letras quedan "vivas" despues de finalizar un juego y comenzar otro
+	por ejemplo:
+		si se pierde una partida y en pantalla quedo la letra "N"
+		en la proxima partida si se apreta la letra N, suma puntos aunque
+		la letra no este en pantalla 
+	
