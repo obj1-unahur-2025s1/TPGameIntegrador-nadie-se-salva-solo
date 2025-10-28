@@ -1,3 +1,4 @@
+import letrasPack.letraSimple.*
 import vida.*
 import wollok.game.*
 import letras.*
@@ -6,7 +7,10 @@ import puntuacion.*
 import sonido.*
 import modoDeJuego.modoDificil.*
 import letrasPack.letraPadre.*
-
+import letrasPack.letraNegra.*
+import letrasPack.letraRoja.*
+import letrasPack.letraVerde.*
+import letrasPack.letraAmarilla.*
     
 
 object juego{
@@ -20,10 +24,7 @@ object juego{
 	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
 
 
-	//prueba
-
-	var w1 = new LetraPadre(letra = "W",puntaje = 2)
-	var z1 = new LetraPadre(letra = "Z",puntaje = 2)		
+	//prueba	
 	
 	method iniciar(){		
 			game.cellSize(15)
@@ -34,9 +35,7 @@ object juego{
 			keyboard.num1().onPressDo({self.modoFacil()})
 			keyboard.num2().onPressDo({self.modoDificil()})
 			self.configuracion()
-
-			keyboard.w().onPressDo({w1.aparecer(15)})
-			keyboard.z().onPressDo({z1.aparecer(24)})
+		
 			
 
 			game.start()			   		
