@@ -21,7 +21,10 @@ class Letras{
 
     
 
-    method caer(){ //todas
+    method caer(){ 
+        /*
+            hace que la letra caiga y que impacta en el submarino cuando la letra llega a la posicion Y = 7
+        */
         if(esVisible){
             position = position.down(1)            
         }
@@ -31,11 +34,17 @@ class Letras{
                      
     }
 
-    method empezarARotar(){ //simple
+    method empezarARotar(){ 
+        /*
+            ejecuta el metodo rotar
+        */
         game.onTick(1500, "rotar"+letra, {self.rotar()})
     }
 
-    method rotar(){ // simple
+    method rotar(){ 
+        /*
+            hace que la letra rote 
+        */
         image = letra + posicion + ".png"
         posicion += 1
         if(posicion >3){
@@ -43,11 +52,19 @@ class Letras{
         }
     }
 
-    method cambiarPosicion(posicionX){ // no se si es necesaria
+    method cambiarPosicion(posicionX){ 
+        /*
+            ubica a la letra en la posicion:  
+            X posicionX
+            Y 36
+        */
         position = game.at(posicionX, 36)
     }
 
-    method impactar(){ // todas
+    method impactar(){ 
+        /*
+            evento que se ejecuta cuando la letra llega a la posicion del submarino
+        */
         if(esVisible ){
             barraDeVida.restarCantidad()        
             image = "impacto.png"
@@ -61,12 +78,18 @@ class Letras{
     }
 
 
-    method ocultar(){ // no se si es necesaria
+    method ocultar(){ 
+        /*
+            je
+        */
         esVisible = false
     }
    
 
-    method destruir(){ // todas
+    method destruir(){ 
+         /*
+            evento que se ejecuta cuando se apreta la tecla correspondiente a la letra
+        */
         if(esVisible and juego.estaJugando()){
          juego.listaLetras().remove(self.letra())
          image = "explosion1.png"
@@ -79,20 +102,19 @@ class Letras{
         }   
     }
 
-    method detener(){ // no se si es necesaria
+    method detener(){ 
+        /*
+            detiene la caida de la letra
+        */
         position = position.down(0)
     }
 
-    method noEstaEnPantalla(){
-        if(!esVisible and juego.estaJugando()){
-            puntos.restarPuntaje(puntaje)
-            error.reproducir(false)
-            error.cambiarVolumen(0.3)
-        }
-        
-    }
+    
 
     method iniciarCaida(tiempo){
+        /*
+            ejecuta el metodo caer, con el intervalo de tiempo *tiempo*
+        */
         game.onTick(tiempo, "caida", {self.caer()})
         esVisible = true
     }
@@ -106,6 +128,9 @@ class Letras{
     }
 
     method explosion(){
+        /*
+            reproduce el sonido de explosion
+        */
         explosion.cambiarVolumen(0.3)
         explosion.reproducir(false)
     }
@@ -147,7 +172,9 @@ class LetraRoja inherits LetraNegra{
             juego.dificultad().atributos().get(2).aumentarValor()
             juego.listaLetras().remove(self.letra())
             puntos.sumarPuntaje(puntaje)                 
-            juego.dificultad().aumentarDificultad(puntos.numero(),controlPuntaje)   
+            juego.dificultad().aumentarDificultad(puntos.numero(),controlPuntaje)
+
+
         }
     }
 

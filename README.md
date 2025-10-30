@@ -7,6 +7,7 @@ Cosas a agregar : Letras de colres. Que roten las letras al llegar a una puntuac
 - Nicolas Gonzalez
 - Mauro Pozzi
 - Ary Albarracin
+- Franco Cerantonio
 
 ## Capturas
 

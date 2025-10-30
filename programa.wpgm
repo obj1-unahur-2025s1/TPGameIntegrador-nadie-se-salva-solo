@@ -3,7 +3,8 @@ import juego.*
 
 
 program Game {
-	juego.iniciar()	
+	juego.iniciar()
+	
 }
 
 

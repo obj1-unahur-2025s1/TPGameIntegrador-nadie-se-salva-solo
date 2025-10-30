@@ -24,9 +24,88 @@ object juego{
 	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
 
 
-	//prueba	
 	
-	method iniciar(){		
+
+	method dicABC(){
+		/*
+			Pruebas diccionario con letras
+		*/
+		const dic = new Dictionary()
+
+		const LetraA = new LetraSimple(letra = "A",puntaje = 2)
+		const LetraB = new LetraSimple(letra = "B",puntaje = 2)
+
+		dic.put("A", LetraA)
+		dic.put("B", LetraB)
+		
+	}
+
+	const abece = #{"A","B","C","D"}
+
+	method explosionSiErrorSino(unaLetra){
+		/*
+			Prueba metodo explosion cuando hay letra en pantalla (conjunto abece) 
+			o sonido de error cuando no estan en pantalla
+		*/
+
+		if(abece.contains(unaLetra)){
+
+			self.explo()
+			abece.remove("A")
+			console.println("si")
+
+		}else{
+			
+			console.println("no")
+			self.error()
+
+		}
+
+	}
+	
+
+	method explo(){
+		/*
+			metodo que reproduce sonido de explosion
+		*/
+		const explo = new Sonido(cancion="explosion2.mp3")
+		explo.reproducir(false)
+	}
+
+	method error(){
+		/*
+			metodo que reproduce sonido de explosion
+		*/
+		const explo = new Sonido(cancion="error.mp3")
+		explo.reproducir(false)
+		explo.cambiarVolumen(0.2)
+	}
+
+	method asiEh(){
+		/*
+			Metodo de prueba para implementar metodo explosionSiErrorSino() y setearlo a letras
+			del teclado
+		*/
+
+		keyboard.a().onPressDo({self.explosionSiErrorSino("A")})
+		keyboard.b().onPressDo({self.explosionSiErrorSino("B")})
+		keyboard.c().onPressDo({self.explosionSiErrorSino("C")})
+		keyboard.d().onPressDo({self.explosionSiErrorSino("D")})
+
+		
+
+		keyboard.p().onPressDo({self.explosionSiErrorSino("P")})		
+		keyboard.o().onPressDo({self.explosionSiErrorSino("O")})
+		keyboard.l().onPressDo({self.explosionSiErrorSino("L")})
+		keyboard.k().onPressDo({self.explosionSiErrorSino("K")})
+		
+	}
+
+	/////////////////////////
+	method iniciar(){
+			/*
+				configura y ejecuta el juego
+			*/		
 			game.cellSize(15)
 			game.width(40)
 			game.height(40)	
@@ -36,7 +115,9 @@ object juego{
 			keyboard.num2().onPressDo({self.modoDificil()})
 			self.configuracion()
 		
-			
+			self.asiEh()
+
+			keyboard.f().onPressDo({abece.add("A")})
 
 			game.start()			   		
 	}
@@ -47,21 +128,30 @@ object juego{
 	
 
 	method modoFacil(){
+		/*instancia un objeto modo facil, lo muestra en pantalla y lo ejecuta*/
 		dificultad = new Facil(vel = 1500, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
 		dificultad.configuracion()			
 	}
 	
 	method modoDificil(){
+		/*instancia un objeto modo dificil, lo muestra en pantalla y lo ejecuta*/
 		dificultad = new Dificil(vel = 200, cant = 99 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
 		
 		dificultad.configuracion()
 	}
 
 	method cambiarDificultad(unaDificultad){
+		/*
+			Cambia la dificultad actual por unaDificultad
+		*/
 		dificultad = unaDificultad
 	}
 
 	method reiniciar(){
+		/*
+			remueve la escena de gameOver y muestra la del menu. Resetea muchas cosas
+			anda a saber que son
+		*/
 		if(perdio){			
 	  		game.removeVisual(gameOver)
 			game.addVisual(menu)			
@@ -79,24 +169,42 @@ object juego{
     }
 
 	method rendirse(){
+		/*
+			Cambia la escena de juego en progreso por la de gameOver
+		*/
 		gameOver.configuracion()
 	}	
 
-	method agregarLetraSiEsPosible(unaCantidad,velocidad){	
+	method agregarLetraSiEsPosible(unaCantidad,velocidad){
+		/*
+			El metodo que se encarga de poner letras en pantalla y hacer que 
+			hagan su comportamiento
+		*/	
 
 		const letra = self.abc().anyOne()
 
-		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra.letra())){
-			letra.cambiarPosicion(self.algunaPosicion())
+		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra.letra())){ //las muestra en pantalla
+		// si no esta en pantalla y si la cantidad en pantalla no supera a la posible
+
+			letra.cambiarPosicion(self.algunaPosicion()) 
 			letra.addVisual()
-			letra.iniciarCaida(velocidad)			
+			letra.iniciarCaida(velocidad)	
+
 			listaLetras.add(letra.letra())
 			keyboard.letter(letra.letra()).onPressDo({letra.destruir()})
 			dificultad.checkRotar(letra)	
+
 		}
 	}
 
 	method algunaPosicion(){		
+
+		/*
+			agrega la primera lista de la lista posiciones a posicionesPosibles
+			elimina la primer lista de la lista posiciones
+			devuelve una posicion de la ultima lista de posiciones de la lista posicionesPosibles
+		*/
+
 		self.reiniciarPosiciones()		
 		posicionesPosibles.add(posiciones.first())
 		posiciones.remove(posiciones.first())
@@ -104,6 +212,10 @@ object juego{
 	}
 
 	method reiniciarPosiciones(){
+		/*
+			cuando la lista posiciones queda vacia, la reinicia y vacia la lista posicionesPosibles
+		*/
+
 		if(posiciones.isEmpty()){
 		  posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
 		  posicionesPosibles.clear()
@@ -111,12 +223,18 @@ object juego{
 	}
 	
 	method hayLetraRepetida(unaLetra){		
+		/*
+			Indica si la letra unaLetra existe en la lista listaLetras
+		*/
 		return listaLetras.contains(unaLetra)
 	}
 
 	
 
 	method abc(){
+		/*
+			Instancia todas las letras del abecedario, las mete en una lsita y devuelve la lsita
+		*/
 		const a = new Letras(image = "A0.png",letra = "A",puntaje = 1)
 		const b = new Letras(image = "B0.png",letra = "B",puntaje = 3)
 		const c = new Letras(image = "C0.png",letra = "C",puntaje = 1)
