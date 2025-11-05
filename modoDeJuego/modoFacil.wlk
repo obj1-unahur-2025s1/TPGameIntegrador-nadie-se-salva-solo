@@ -4,13 +4,26 @@ import sonido.*
 
 class ModoFacil inherits ModoDeJuego{
 
+    const musica = new Sonido(cancion = "musicaFacil.mp3")
+
     override
-    method configurar(){
+    method mostrar(){        
         velocidadCaida = 1500
         cantidadLetras = 5
-        velocidadAparacion = 1500
-        musica = new Sonido(cancion = "musicaFacil.mp3")
-        super() 
+        velocidadAparacion = 1200
+        
+        super()         
+    }
+
+    method playMusica(){
+        musica.reproducir(true)
+        musica.cambiarVolumen(0.2)
+    }
+
+    override 
+    method ocultar(){
+        musica.parar()
+        super()     
     }
 
     override

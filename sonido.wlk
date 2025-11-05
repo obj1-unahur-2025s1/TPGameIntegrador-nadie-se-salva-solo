@@ -1,21 +1,35 @@
 class Sonido{
-    const cancion
+    var cancion
     const property sonido = game.sound(cancion)
+    var estado = false
     
 
     method reproducir(loop){
         /*
             reproduce sonido. Si loop es true la musica suena en loop y si es falso solo se reproduce una vez
-        */        
-            sonido.play()
-            sonido.shouldLoop(loop)        
+        */  
+            if(!estado){
+                sonido.play()
+                sonido.shouldLoop(loop)
+                estado = true 
+            }
+                   
+                               
     }
+
+    
 
     method parar(){
         /*
             para el sonido
         */
-        sonido.stop() 
+            if(estado){
+                sonido.stop()
+                estado = false
+            }
+            
+        
+         
         
     }
     method cambiarVolumen(unNumero){
@@ -25,3 +39,4 @@ class Sonido{
         sonido.volume(unNumero)
     } 
 }
+

@@ -72,6 +72,7 @@ object puntos{
         /*
             posiciona los 5 numeros en pantalla durante el juego
         */
+        self.addVisual()
         puntuacion.get(0).reubicar(36,0)
         puntuacion.get(1).reubicar(34,0)
         puntuacion.get(2).reubicar(32,0)

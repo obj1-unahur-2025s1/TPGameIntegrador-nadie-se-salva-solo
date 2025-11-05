@@ -1,9 +1,15 @@
+import juego.juego
+import pantallasPack.juego2.juego2
 import wollok.game.*
-import juego.*
+
 
 
 program Game {
-	juego.iniciar()
+	//juego.iniciar() // juego viejo
+ 	juego2.iniciar() // juego con nuevo codigo, no funciona bien
+	/*
+		
+	*/
 	
 }
 

@@ -1,3 +1,4 @@
+import pantallas.*
 import letraPadre.*
 import sonido.*
 class LetraSimple inherits LetraPadre{ 
@@ -12,8 +13,8 @@ class LetraSimple inherits LetraPadre{
     }
 
     override 
-    method doComportamiento(posicionX){
-        super(posicionX)
+    method doComportamiento(posicionX,velocidadCaida){
+        super(posicionX,velocidadCaida)
         posicionRotar = 0               
         image = letra+ posicionRotar +".png"
     }

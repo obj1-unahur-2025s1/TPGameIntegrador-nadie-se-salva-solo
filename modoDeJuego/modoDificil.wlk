@@ -2,16 +2,31 @@
 import modoDeJuego.*
 import sonido.*
 
-class ModoDificil inherits ModoDeJuego {   
+class ModoDificil inherits ModoDeJuego {
+
+    const musica = new Sonido(cancion = "musicaDificil.mp3")
 
     override
-    method configurar(){       
+    method mostrar(){          
         velocidadCaida = 1200
         cantidadLetras = 8
         velocidadAparacion = 1200
-        musica = new Sonido(cancion = "musicaDificil.mp3")
-        super()               
+        self.playMusica()
+        super()                     
     }
+
+    method playMusica(){
+        musica.reproducir(true)
+        musica.cambiarVolumen(0.2)
+    }
+
+    override 
+    method ocultar(){
+        musica.parar()
+        super()     
+    }
+    
+    
     override
     method image() = "modoDificil2.png"  
     
@@ -29,5 +44,7 @@ class ModoDificil inherits ModoDeJuego {
     method aumentarVelocidadAparacion(){
         velocidadAparacion = (velocidadAparacion - 100).max(0)
     }
+
+    
     
 }

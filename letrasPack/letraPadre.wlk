@@ -11,11 +11,10 @@ class LetraPadre{
     var property position = game.at(15, 15)
     
 
-    method doComportamiento(posicionX){             
+    method doComportamiento(posicionX, velocidadCaida){             
         self.aparecer(posicionX)        
-        self.doCaer()
-        image = letra+ ".png"
-        console.println(letra+".png")                          
+        self.doCaer(velocidadCaida)
+        image = letra+ ".png"                         
     }
 
     method aparecer(posicionX){
@@ -23,9 +22,9 @@ class LetraPadre{
         game.addVisual(self) 
     }
 
-    method doCaer(){
+    method doCaer(velocidadCaida){
         esVisible = true
-        game.onTick(100, "caer"+letra, {self.caer()})        
+        game.onTick(velocidadCaida, "caer"+letra, {self.caer()})        
     }   
 
     method caer(){
@@ -56,6 +55,10 @@ class LetraPadre{
         unSonido.reproducir(false)
         unSonido.cambiarVolumen(0.5)
         game.schedule(1500, {unSonido.parar()})
+    }
+
+    method ocultar(){
+        game.removeVisual(self)
     }
 
            

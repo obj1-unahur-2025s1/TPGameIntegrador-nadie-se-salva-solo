@@ -5,7 +5,7 @@ import modoDeJuego.*
 class ModoExtremo inherits ModoDeJuego {
     
     override
-    method configurar(){
+    method mostrar(){
         velocidadCaida = 200
         cantidadLetras = 99
         velocidadAparacion = 200

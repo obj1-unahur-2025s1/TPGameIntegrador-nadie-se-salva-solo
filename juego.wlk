@@ -19,89 +19,19 @@ object juego{
 	var property perdio = false	
 	var property dificultad = null
 	const posicionesPosibles = [] 	
-	const property listaLetras = []
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]	
 	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
+	const property listaLetras = []
+
 
 
 	
 
-	method dicABC(){
-		/*
-			Pruebas diccionario con letras
-		*/
-		const dic = new Dictionary()
-
-		const LetraA = new LetraSimple(letra = "A",puntaje = 2)
-		const LetraB = new LetraSimple(letra = "B",puntaje = 2)
-
-		dic.put("A", LetraA)
-		dic.put("B", LetraB)
-		
-	}
-
-	const abece = #{"A","B","C","D"}
-
-	method explosionSiErrorSino(unaLetra){
-		/*
-			Prueba metodo explosion cuando hay letra en pantalla (conjunto abece) 
-			o sonido de error cuando no estan en pantalla
-		*/
-
-		if(abece.contains(unaLetra)){
-
-			self.explo()
-			abece.remove("A")
-			console.println("si")
-
-		}else{
-			
-			console.println("no")
-			self.error()
-
-		}
-
-	}
 	
 
-	method explo(){
-		/*
-			metodo que reproduce sonido de explosion
-		*/
-		const explo = new Sonido(cancion="explosion2.mp3")
-		explo.reproducir(false)
-	}
+	
 
-	method error(){
-		/*
-			metodo que reproduce sonido de explosion
-		*/
-		const explo = new Sonido(cancion="error.mp3")
-		explo.reproducir(false)
-		explo.cambiarVolumen(0.2)
-	}
-
-	method asiEh(){
-		/*
-			Metodo de prueba para implementar metodo explosionSiErrorSino() y setearlo a letras
-			del teclado
-		*/
-
-		keyboard.a().onPressDo({self.explosionSiErrorSino("A")})
-		keyboard.b().onPressDo({self.explosionSiErrorSino("B")})
-		keyboard.c().onPressDo({self.explosionSiErrorSino("C")})
-		keyboard.d().onPressDo({self.explosionSiErrorSino("D")})
-
-		
-
-		keyboard.p().onPressDo({self.explosionSiErrorSino("P")})		
-		keyboard.o().onPressDo({self.explosionSiErrorSino("O")})
-		keyboard.l().onPressDo({self.explosionSiErrorSino("L")})
-		keyboard.k().onPressDo({self.explosionSiErrorSino("K")})
-		
-	}
-
-	/////////////////////////
+	
 	method iniciar(){
 			/*
 				configura y ejecuta el juego
@@ -115,9 +45,7 @@ object juego{
 			keyboard.num2().onPressDo({self.modoDificil()})
 			self.configuracion()
 		
-			self.asiEh()
-
-			keyboard.f().onPressDo({abece.add("A")})
+			
 
 			game.start()			   		
 	}
