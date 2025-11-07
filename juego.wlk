@@ -16,6 +16,7 @@ object juego{
 	
 	
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]	
+	
 	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
 
 	const property listaLetras = #{}
@@ -23,17 +24,20 @@ object juego{
 
 	
 	
-	method iniciar(){		
+	method iniciar(){
+		//configura el juego 		 
 			game.cellSize(15)
 			game.width(40)
 			game.height(40)	
   			game.title("bombardeo de letras")
-			game.addVisual(menu)  	
+			game.addVisual(menu)
+		// setea los botones para elegir la dificultad  	
 			keyboard.num1().onPressDo({self.modoFacil()})
 			keyboard.num2().onPressDo({self.modoDificil()})
+		// reproduce la musica, por alguna razon lo hice por separado
 			self.configuracion()
 			
-
+		// inicia el juego
 			game.start()			   		
 	}
 
@@ -44,33 +48,41 @@ object juego{
 	
 
 	method modoFacil(){
-		
+		// setea el modo facil y lo comienza
 		dificultad = new Facil(vel = 1000, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
 		dificultad.configuracion()
+
+		// agrega letras a la lista de las letras que no estan en pantalla
 		letrasNoEnPantalla = #{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}			
 	}
 	
 	method modoDificil(){
+		// setea el modo dificil y lo comienza
 		dificultad = new Dificil(vel = 500, cant = 8 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
-		letrasNoEnPantalla = #{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
 		dificultad.configuracion()
+
+		letrasNoEnPantalla = #{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
+		
 	}
 
 	method cambiarDificultad(unaDificultad){
+		// cambia la dificultad por una nueva para que 
+		// la dificultad cuando se ejecuta, cambia la dificultad actual
 		dificultad = unaDificultad
 	}
 
 	method reiniciar(){
+		//muestra el menu, despues de la pantalla de game over
 		if(perdio){			
-	  		game.removeVisual(gameOver)
-			game.addVisual(menu)			
-			puntos.removeVisual()
-			puntos.resetearPuntuacion()
-			controlPuntaje.resetarControlPuntaje()
-			controlPuntaje.resetearLimiteMasLetras()
-			controlPuntaje.resetearLimiteColores()
-			gameOver.musica().parar()
-			self.configuracion()
+	  		game.removeVisual(gameOver) // saca la escena del game over
+			game.addVisual(menu) // muestra el menu
+			puntos.removeVisual() // oculta la puntuacion final hecha por el jugador
+			puntos.resetearPuntuacion() // setea la puntuacion a 0
+			controlPuntaje.resetarControlPuntaje() // resetea los limites de puntajes para el aumento de dificultad
+			controlPuntaje.resetearLimiteMasLetras() //resetea los limites de puntajes para la aparicion de mas letras a la vez	
+			controlPuntaje.resetearLimiteColores() //resetea los limites de puntajes para la aparicion de letras de colores
+			gameOver.musica().parar() // para la musica de la escena game over
+			self.configuracion() // reproduce la musica de menu
 	
 	 		estaEnMenu = true
 			perdio = false			
@@ -78,6 +90,7 @@ object juego{
     }
 
 	method rendirse(){
+		// hace que se muestre la escena del game over
 		gameOver.configuracion()
 	}	
 

@@ -7,7 +7,7 @@ program Game {
 	juego.iniciar()	
 	// hice rollback a ultimo commit de cuando entregamos el juego porque lo rompi todo
 	// le agregue para que marque error cuando apretas una tecla que no esta en pantalla
-	// pero se genera un error la segunda vez que apretas una tecla que no esta en pantallaa
+	
 }
 
 
