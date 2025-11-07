@@ -6,7 +6,12 @@ import sonido.*
 
 
 object menu {
-  method image() = "menuInicial3.png"
+  method image() = "menuInicial4.png"
+  method position() = game.origin()
+}
+
+object comoJugar{
+   method image() = "comoJugar2.png"
   method position() = game.origin()
 }
 
@@ -103,7 +108,7 @@ class Dificultad{
    }
 // puntaje actual 251 
    method masRapidoYmasCantidad(puntajeActual,ultimoPuntaje){
-      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 15){
+      if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 20){
          atributos.get(posicion).aumentarValor()
          ultimoPuntaje.actualizarUltimoPuntaje()
          posicion = posicion + 1
@@ -115,7 +120,7 @@ class Dificultad{
 
    method generarMasLetras(puntajeActual,ultimoPuntaje){
       if(puntajeActual >= ultimoPuntaje.limiteMasLetras()){
-        // game.onTick(600, "letra", {juego.agregarLetraSiEsPosible(atributos.get(1).valorInicial(),atributos.get(2).valorInicial())})        
+         game.onTick(600, "letra", {juego.agregarLetraSiEsPosible(atributos.get(1).valorInicial(),atributos.get(2).valorInicial())})        
          juego.agregarLetraSiEsPosible(27,200)
          ultimoPuntaje.actualizarLimiteMasLetras()
       }      
@@ -172,14 +177,14 @@ class Facil inherits Dificultad{
    
    override method resetearVelocidades(){
       vel = 1500
-      cant = 5
+      cant = 24
    }   
 }
 
 class Dificil inherits Dificultad{
    override method resetearVelocidades(){
       vel = 1000
-      cant = 8
+      cant = 24
    }
 }
 
@@ -242,11 +247,11 @@ class Atributo{
 
 class Velocidad inherits Atributo{
    override method aumentarValor(){
-      valorInicial = (valorInicial - 50).max(0)
+      valorInicial = (valorInicial - 100).max(10)
    }
 
    method disminuirVelocidad(){
-      valorInicial = valorInicial + 50
+      valorInicial = valorInicial + 200
    }
 }
 

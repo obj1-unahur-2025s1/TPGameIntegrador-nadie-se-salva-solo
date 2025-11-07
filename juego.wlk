@@ -34,6 +34,8 @@ object juego{
 		// setea los botones para elegir la dificultad  	
 			keyboard.num1().onPressDo({self.modoFacil()})
 			keyboard.num2().onPressDo({self.modoDificil()})
+			keyboard.num3().onPressDo({self.comoJugar()})
+			keyboard.num4().onPressDo({self.menu()})
 		// reproduce la musica, por alguna razon lo hice por separado
 			self.configuracion()
 			
@@ -63,6 +65,16 @@ object juego{
 
 		letrasNoEnPantalla = #{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
 		
+	}
+
+	method comoJugar(){
+		game.removeVisual(menu)
+		game.addVisual(comoJugar)
+	}
+
+	method menu(){
+		game.removeVisual(comoJugar)
+		game.addVisual(menu)
 	}
 
 	method cambiarDificultad(unaDificultad){
@@ -99,7 +111,7 @@ object juego{
 		const letra = self.abc().anyOne()
 		
 
-		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra)){
+		if(not self.hayLetraRepetida(letra)){
 			letra.cambiarPosicion(self.algunaPosicion())
 			letra.addVisual()
 			letra.iniciarCaida(velocidad)
