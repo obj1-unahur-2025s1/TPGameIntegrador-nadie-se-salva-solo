@@ -45,13 +45,13 @@ object juego{
 
 	method modoFacil(){
 		
-		dificultad = new Facil(vel = 1500, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
+		dificultad = new Facil(vel = 1000, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
 		dificultad.configuracion()
 		letrasNoEnPantalla = #{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}			
 	}
 	
 	method modoDificil(){
-		dificultad = new Dificil(vel = 1000, cant = 8 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
+		dificultad = new Dificil(vel = 500, cant = 8 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
 		letrasNoEnPantalla = #{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
 		dificultad.configuracion()
 	}
@@ -84,8 +84,9 @@ object juego{
 	method agregarLetraSiEsPosible(unaCantidad,velocidad){	
 
 		const letra = self.abc().anyOne()
+		
 
-		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra.letra())){
+		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra)){
 			letra.cambiarPosicion(self.algunaPosicion())
 			letra.addVisual()
 			letra.iniciarCaida(velocidad)
@@ -114,7 +115,7 @@ object juego{
 	}
 	
 	method hayLetraRepetida(unaLetra){		
-		return listaLetras.contains(unaLetra)
+		return listaLetras.any({ l => l.letra() == unaLetra.letra() })
 	}
 
 	
@@ -152,27 +153,28 @@ object juego{
 
 
 	method manejarLetra(letraString) {
-	
-	   var letraEnPantalla = null
+		if(estaJugando){
+			var letraEnPantalla = null
 
-    	try{
-       		 letraEnPantalla = listaLetras.find({ l => l.letra() == letraString })
-    	} catch e  {
-        letraEnPantalla = null
-    	}
+			try{
+				letraEnPantalla = listaLetras.find({ l => l.letra() == letraString })
+			} catch e  {
+			letraEnPantalla = null
+			}
 
-    
-    if (letraEnPantalla != null) {
-        // ✅ Si la letra está en pantalla
-        letraEnPantalla.destruir()
-        listaLetras.remove(letraEnPantalla)
-        letrasNoEnPantalla.add(letraString)
-    } else {
-		console.println("hola")
-		console.println("    ")
-		self.sonidoError()
-        puntos.restarPuntaje(10)
-    }
+		
+		if (letraEnPantalla != null) {
+			
+			letraEnPantalla.destruir()
+			listaLetras.remove(letraEnPantalla)
+			letrasNoEnPantalla.add(letraString)
+		} else {
+			
+			self.sonidoError()
+			puntos.restarPuntaje(10)
+		}
+		}
+		
 }
 
 method sonidoError(){	

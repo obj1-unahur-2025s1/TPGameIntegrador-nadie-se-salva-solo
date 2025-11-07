@@ -134,8 +134,8 @@ class Dificultad{
          letra.cambiarPosicion(juego.algunaPosicion())
 			letra.addVisual()
 			letra.iniciarCaida(500)			
-			juego.listaLetras().add(letra.letra())
-			keyboard.letter(letra.letra()).onPressDo({letra.destruir()})
+			juego.listaLetras().add(letra)
+			
    }
 
    method LetrasColores(){
@@ -242,11 +242,11 @@ class Atributo{
 
 class Velocidad inherits Atributo{
    override method aumentarValor(){
-      valorInicial = (valorInicial - 200).max(0)
+      valorInicial = (valorInicial - 50).max(0)
    }
 
    method disminuirVelocidad(){
-      valorInicial = valorInicial + 200
+      valorInicial = valorInicial + 50
    }
 }
 
