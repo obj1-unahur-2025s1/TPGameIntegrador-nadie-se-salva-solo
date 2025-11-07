@@ -1,16 +1,12 @@
-import juego.juego
-import pantallasPack.juego2.juego2
 import wollok.game.*
-
+import juego.*
 
 
 program Game {
-	//juego.iniciar() // juego viejo
- 	juego2.iniciar() // juego con nuevo codigo, no funciona bien
-	/*
-		
-	*/
-	
+	juego.iniciar()	
+	// hice rollback a ultimo commit de cuando entregamos el juego porque lo rompi todo
+	// le agregue para que marque error cuando apretas una tecla que no esta en pantalla
+	// pero se genera un error la segunda vez que apretas una tecla que no esta en pantallaa
 }
 
 

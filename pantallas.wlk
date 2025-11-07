@@ -17,9 +17,6 @@ object gameOver{
    
 
    method configuracion(){
-      /*
-         configuracion de escena menu (pantalla inicial)
-      */
       if(juego.estaJugando()){
          juego.estaJugando(false)
          juego.perdio(true)
@@ -27,7 +24,8 @@ object gameOver{
          game.addVisual(self)
          puntos.removeVisual()                
          puntos.reubicar()                      
-         juego.listaLetras().clear()         
+         juego.listaLetras().clear()
+         juego.letrasNoEnPantalla().clear()         
 			barraDeVida.removeVisual()
 			barraDeVida.reiniciar()
          juego.dificultad().resetearVelocidades()         
@@ -45,7 +43,6 @@ object gameOver{
 }
 
 class Dificultad{
-   
    var vel 
    var cant
    const velCaida = new Velocidad(valorInicial = vel)
@@ -58,10 +55,8 @@ class Dificultad{
    var posicion = 0 
 
 
+
    method configuracion(){
-      /*
-         configuracion de escena dificultad (se aplica a ambas dificultades)
-      */
       if(juego.estaEnMenu()){
          juego.estaEnMenu(false)
          juego.musica().parar()
@@ -75,60 +70,39 @@ class Dificultad{
          puntos.ubicar()
          keyboard.enter().onPressDo({juego.rendirse()})
          musica.reproducir(true)
-         musica.cambiarVolumen(0.2)                       
+         musica.cambiarVolumen(0.2)
+         juego.configurarTeclado()
+
+         
+
       }
    }
 
    method pararMusica() {
-      /*
-         para la musica que se esta reproduciendo
-      */
       musica.parar()
    }
 
    method empezar(){
-      /*
-         genera las letras en pantallas en cada tick. atributos.get(0).valorInicial() son los segundos cada cuanto
-         se generan las letras
-      */
       game.onTick(atributos.get(0).valorInicial(), "letra", {juego.agregarLetraSiEsPosible(atributos.get(1).valorInicial(),atributos.get(2).valorInicial())})
             
    }
    method disminuirVelociad(){
-      /*
-         Disminuye la velocidad de caida y aparicion
-      */
       vel = vel + 300
    }  
    
-   method aumentarDificultad(puntajeActual,ultimoPuntaje){  
-      /*
-         dependiendo de la puntuacion del jugador hace que las letras aparezcan y caigan mas rapido, puedan haber 
-         mas letras en pantallas y que empiecen a a aparecer las letras de colores
-      */          
+   method aumentarDificultad(puntajeActual,ultimoPuntaje){            
       self.masRapidoYmasCantidad(puntajeActual, ultimoPuntaje)
       self.generarMasLetras(puntajeActual,ultimoPuntaje)
       self.generarLetrasColor(puntajeActual,ultimoPuntaje)            
    }
 
    method checkRotar(unaLetra){
-      /*
-         se encarga de controlar la puntuacion actual del jugador y hacer
-         que la letras empiecen a rotar cuando llega a cierta puntuacion
-      */
       if(puntos.numero() > 200){
          unaLetra.empezarARotar()
       }
    }
 // puntaje actual 251 
    method masRapidoYmasCantidad(puntajeActual,ultimoPuntaje){
-      /*
-         se encarga de controlar la puntuacion actual del jugador, hacer que
-         aumente la velocidad de caida y aparicion de las letras y la cantidad maxima
-         en pantalla  
-
-      */
-
       if(puntajeActual - ultimoPuntaje.ultimoPuntaje() >= 15){
          atributos.get(posicion).aumentarValor()
          ultimoPuntaje.actualizarUltimoPuntaje()
@@ -140,10 +114,6 @@ class Dificultad{
    }
 
    method generarMasLetras(puntajeActual,ultimoPuntaje){
-      /*
-         no se que hace
-      */
-
       if(puntajeActual >= ultimoPuntaje.limiteMasLetras()){
         // game.onTick(600, "letra", {juego.agregarLetraSiEsPosible(atributos.get(1).valorInicial(),atributos.get(2).valorInicial())})        
          juego.agregarLetraSiEsPosible(27,200)
@@ -152,11 +122,6 @@ class Dificultad{
    }
 
    method generarLetrasColor(puntajeActual,ultimoPuntaje){
-      /*
-         se encarga de controlar la puntuacion actual del jugador y hacer que
-         empiecen a aparecer letras de colores cuando se llega a cierta puntuacion
-
-      */
       if(puntajeActual >= ultimoPuntaje.limiteColores()){
          game.onTick(5000, "colores", {self.generarLetraDeColor()})
          ultimoPuntaje.actualizarLimiteColores()
@@ -164,9 +129,6 @@ class Dificultad{
    }
 
    method generarLetraDeColor(){
-      /*
-         genera una letra de color y las muestra en pantalla
-      */
       const letra = self.LetrasColores().anyOne()
 
          letra.cambiarPosicion(juego.algunaPosicion())
@@ -177,9 +139,6 @@ class Dificultad{
    }
 
    method LetrasColores(){
-      /*
-         lista de letras de colores posibles
-      */
       const bN = new LetraNegra(image = "Bn.png", letra = "B", puntaje = 100)
       const cN = new LetraNegra(image = "Cn2.png", letra = "C", puntaje =100)
       const pN = new LetraNegra(image = "Pn2.png", letra = "P", puntaje = 100)
@@ -204,13 +163,13 @@ class Dificultad{
    }
 
 
-    method resetearVelocidades()
+    method resetearVelocidades(){
+      
+   }
 }
 
 class Facil inherits Dificultad{
-   /*
-      se encarga de volver a los valores iniciales del modo facil
-   */
+   
    override method resetearVelocidades(){
       vel = 1500
       cant = 5
@@ -218,9 +177,6 @@ class Facil inherits Dificultad{
 }
 
 class Dificil inherits Dificultad{
-   /*
-      se encarga de volver a los valores iniciales del modo difiicl
-   */
    override method resetearVelocidades(){
       vel = 1000
       cant = 8
@@ -229,128 +185,73 @@ class Dificil inherits Dificultad{
 
 
 object controlPuntaje{
-   /*
-      es un objeto que sabe cuales son los limites de puntuacion para que empiecen a generarse eventos 
-      durante el juego
-   */
    var ultimoPuntaje = puntos.numero()
    var limiteMasLetras = 250
    var limiteColores = 150
 
    method ultimoPuntaje(){
-      /* 
-         
-      */
       return ultimoPuntaje
    }
 
    method resetarControlPuntaje(){
-      /*
-         resetea la variable ultimoPuntaje
-      */
       ultimoPuntaje = 0
    }
 
    method actualizarUltimoPuntaje(){
-      /*
-         actualiza la variable ultimoPuntaje al puntaje actual del jugador
-      */
       ultimoPuntaje = puntos.numero()
    }
 
    method limiteMasLetras(){
-      /*
-         devuelve el puntaje necesario para que se active el evento que aumenta la cantidad 
-         de letras posibles en pantalla
-      */
       return limiteMasLetras
    }
 
    method actualizarLimiteMasLetras(){
-      /*
-         aumenta el puntaje necesario para que se active el evento que aumenta la cantidad 
-         de letras posibles en pantalla
-      */
       limiteMasLetras += 100
    }
 
    method resetearLimiteMasLetras(){
-      /*
-         resetea el puntaje necesario para que se active el evento que aumenta la cantidad 
-         de letras posibles en pantalla
-      */
       limiteMasLetras = 150
    }
 
    method limiteColores(){
-      /*
-         devuelve el puntaje necesario para que se active el evento que genera letras de colores
-      */
       return limiteColores
    }
 
    method actualizarLimiteColores(){
-      /*
-         aumenta el puntaje necesario para que se active el evento que genera letras de colores
-      */
       limiteColores = 99999999
    }
 
    method resetearLimiteColores(){
-      /*
-         resetea el puntaje necesario para que se active el evento que genera letras de colores
-      */
       limiteColores = 150
    }
    
 }
 class Atributo{
-   /*
-      clase padre para velocidad y cantidad, ambas se usan para manejar la velocidad de aparicion y caida
-      de las letras y la cantidad en pantalla
-   */
    var valorInicial  
 
    method valorInicial(){
-      /*
-         devuelve el valor inicial con el que empieza el atributo
-      */
       return valorInicial
    }
    method aumentarValor(){
       
    }
    method cambiarValor(unValor){
-      /*
-         setter de valorInicial
-      */
       valorInicial = unValor
    }  
 }
 
 class Velocidad inherits Atributo{
-
    override method aumentarValor(){
-      /*
-         aumenta la velocidad con la que aparece o caen las letras
-      */
       valorInicial = (valorInicial - 200).max(0)
    }
 
    method disminuirVelocidad(){
-      /*
-         disminuye la velocidad con la que aparece o caen las letras
-      */
       valorInicial = valorInicial + 200
    }
 }
 
 class Cantidad inherits Atributo{
    override method aumentarValor(){
-      /*
-         aumenta la cantidad de letras posibles en pantalla
-      */
-
       valorInicial += 1
    }
 }

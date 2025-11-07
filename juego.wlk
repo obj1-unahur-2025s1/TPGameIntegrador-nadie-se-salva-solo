@@ -1,16 +1,10 @@
-import letrasPack.letraSimple.*
 import vida.*
 import wollok.game.*
 import letras.*
 import pantallas.*
 import puntuacion.*
 import sonido.*
-import modoDeJuego.modoDificil.*
-import letrasPack.letraPadre.*
-import letrasPack.letraNegra.*
-import letrasPack.letraRoja.*
-import letrasPack.letraVerde.*
-import letrasPack.letraAmarilla.*
+
     
 
 object juego{
@@ -18,24 +12,18 @@ object juego{
 	var property estaJugando = false
 	var property perdio = false	
 	var property dificultad = null
-	const posicionesPosibles = [] 	
+	const posicionesPosibles = []
+	const error = new Sonido(cancion = "error.mp3") 	
+	
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]	
 	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
-	const property listaLetras = []
 
-
-
-	
+	const property listaLetras = #{}
+    var property letrasNoEnPantalla = #{}
 
 	
-
 	
-
-	
-	method iniciar(){
-			/*
-				configura y ejecuta el juego
-			*/		
+	method iniciar(){		
 			game.cellSize(15)
 			game.width(40)
 			game.height(40)	
@@ -44,8 +32,6 @@ object juego{
 			keyboard.num1().onPressDo({self.modoFacil()})
 			keyboard.num2().onPressDo({self.modoDificil()})
 			self.configuracion()
-		
-			
 
 			game.start()			   		
 	}
@@ -56,30 +42,23 @@ object juego{
 	
 
 	method modoFacil(){
-		/*instancia un objeto modo facil, lo muestra en pantalla y lo ejecuta*/
+		
 		dificultad = new Facil(vel = 1500, cant = 5, image = "modoFacil2.png",musica =new Sonido( cancion ="musicaFacil.mp3"))
-		dificultad.configuracion()			
+		dificultad.configuracion()
+		letrasNoEnPantalla = #{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}			
 	}
 	
 	method modoDificil(){
-		/*instancia un objeto modo dificil, lo muestra en pantalla y lo ejecuta*/
-		dificultad = new Dificil(vel = 200, cant = 99 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
-		
+		dificultad = new Dificil(vel = 1000, cant = 8 , image = "modoDificil2.png",musica = new Sonido(cancion ="musicaDificil.mp3"))		
+		letrasNoEnPantalla = #{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
 		dificultad.configuracion()
 	}
 
 	method cambiarDificultad(unaDificultad){
-		/*
-			Cambia la dificultad actual por unaDificultad
-		*/
 		dificultad = unaDificultad
 	}
 
 	method reiniciar(){
-		/*
-			remueve la escena de gameOver y muestra la del menu. Resetea muchas cosas
-			anda a saber que son
-		*/
 		if(perdio){			
 	  		game.removeVisual(gameOver)
 			game.addVisual(menu)			
@@ -97,42 +76,28 @@ object juego{
     }
 
 	method rendirse(){
-		/*
-			Cambia la escena de juego en progreso por la de gameOver
-		*/
 		gameOver.configuracion()
 	}	
 
-	method agregarLetraSiEsPosible(unaCantidad,velocidad){
-		/*
-			El metodo que se encarga de poner letras en pantalla y hacer que 
-			hagan su comportamiento
-		*/	
+	method agregarLetraSiEsPosible(unaCantidad,velocidad){	
 
 		const letra = self.abc().anyOne()
 
-		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra.letra())){ //las muestra en pantalla
-		// si no esta en pantalla y si la cantidad en pantalla no supera a la posible
-
-			letra.cambiarPosicion(self.algunaPosicion()) 
+		if(listaLetras.size() <= unaCantidad and not self.hayLetraRepetida(letra.letra())){
+			letra.cambiarPosicion(self.algunaPosicion())
 			letra.addVisual()
-			letra.iniciarCaida(velocidad)	
+			letra.iniciarCaida(velocidad)
 
-			listaLetras.add(letra.letra())
-			keyboard.letter(letra.letra()).onPressDo({letra.destruir()})
-			dificultad.checkRotar(letra)	
+			listaLetras.add(letra)	
 
+			//listaLetras.add(letra.letra())			
+			//keyboard.letter(letra.letra()).onPressDo({letra.destruir()})	
+			dificultad.checkRotar(letra)
+			
 		}
 	}
 
 	method algunaPosicion(){		
-
-		/*
-			agrega la primera lista de la lista posiciones a posicionesPosibles
-			elimina la primer lista de la lista posiciones
-			devuelve una posicion de la ultima lista de posiciones de la lista posicionesPosibles
-		*/
-
 		self.reiniciarPosiciones()		
 		posicionesPosibles.add(posiciones.first())
 		posiciones.remove(posiciones.first())
@@ -140,10 +105,6 @@ object juego{
 	}
 
 	method reiniciarPosiciones(){
-		/*
-			cuando la lista posiciones queda vacia, la reinicia y vacia la lista posicionesPosibles
-		*/
-
 		if(posiciones.isEmpty()){
 		  posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]
 		  posicionesPosibles.clear()
@@ -151,18 +112,12 @@ object juego{
 	}
 	
 	method hayLetraRepetida(unaLetra){		
-		/*
-			Indica si la letra unaLetra existe en la lista listaLetras
-		*/
 		return listaLetras.contains(unaLetra)
 	}
 
 	
 
 	method abc(){
-		/*
-			Instancia todas las letras del abecedario, las mete en una lsita y devuelve la lsita
-		*/
 		const a = new Letras(image = "A0.png",letra = "A",puntaje = 1)
 		const b = new Letras(image = "B0.png",letra = "B",puntaje = 3)
 		const c = new Letras(image = "C0.png",letra = "C",puntaje = 1)
@@ -192,6 +147,64 @@ object juego{
 		const letras =[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z]
 		return letras
 	}
+
+
+	method manejarLetra(letraString) {
+	
+	   var letraEnPantalla = null
+
+    	try{
+       		 letraEnPantalla = listaLetras.find({ l => l.letra() == letraString })
+    	} catch e  {
+        letraEnPantalla = null
+    	}
+
+    
+    if (letraEnPantalla != null) {
+        // ✅ Si la letra está en pantalla
+        letraEnPantalla.destruir()
+        listaLetras.remove(letraEnPantalla)
+        letrasNoEnPantalla.add(letraString)
+    } else {
+		console.println("hola")
+	//	self.sonidoError()
+        puntos.restarPuntaje(10)
+    }
+}
+
+method sonidoError(){	
+        error.cambiarVolumen(0.3)
+        error.reproducir(false)    
+}
+
+method configurarTeclado() {
+    keyboard.a().onPressDo({ self.manejarLetra("A") })
+    keyboard.b().onPressDo({ self.manejarLetra("B") })
+    keyboard.c().onPressDo({ self.manejarLetra("C") })
+    keyboard.d().onPressDo({ self.manejarLetra("D") })
+    keyboard.e().onPressDo({ self.manejarLetra("E") })
+    keyboard.f().onPressDo({ self.manejarLetra("F") })
+    keyboard.g().onPressDo({ self.manejarLetra("G") })
+    keyboard.h().onPressDo({ self.manejarLetra("H") })
+    keyboard.i().onPressDo({ self.manejarLetra("I") })
+    keyboard.j().onPressDo({ self.manejarLetra("J") })
+    keyboard.k().onPressDo({ self.manejarLetra("K") })
+    keyboard.l().onPressDo({ self.manejarLetra("L") })
+    keyboard.m().onPressDo({ self.manejarLetra("M") })
+    keyboard.n().onPressDo({ self.manejarLetra("N") })
+    keyboard.o().onPressDo({ self.manejarLetra("O") })
+    keyboard.p().onPressDo({ self.manejarLetra("P") })
+    keyboard.q().onPressDo({ self.manejarLetra("Q") })
+    keyboard.r().onPressDo({ self.manejarLetra("R") })
+    keyboard.s().onPressDo({ self.manejarLetra("S") })
+    keyboard.t().onPressDo({ self.manejarLetra("T") })
+    keyboard.u().onPressDo({ self.manejarLetra("U") })
+    keyboard.v().onPressDo({ self.manejarLetra("V") })
+    keyboard.w().onPressDo({ self.manejarLetra("W") })
+    keyboard.x().onPressDo({ self.manejarLetra("X") })
+    keyboard.y().onPressDo({ self.manejarLetra("Y") })
+    keyboard.z().onPressDo({ self.manejarLetra("Z") })
+}
 
 	
 }
