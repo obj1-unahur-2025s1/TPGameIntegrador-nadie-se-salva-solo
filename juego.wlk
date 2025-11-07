@@ -13,7 +13,7 @@ object juego{
 	var property perdio = false	
 	var property dificultad = null
 	const posicionesPosibles = []
-	const error = new Sonido(cancion = "error.mp3") 	
+	
 	
 	var posiciones = [[13,14,15,16],[25,26,27,28],[0,1,2,3],[30,31,32,33,34,35],[19,20,21,22],[7,8,9,10]]	
 	const property musica = new Sonido(cancion = "musicaMenu2.mp3")
@@ -32,12 +32,14 @@ object juego{
 			keyboard.num1().onPressDo({self.modoFacil()})
 			keyboard.num2().onPressDo({self.modoDificil()})
 			self.configuracion()
+			
 
 			game.start()			   		
 	}
 
 	method configuracion(){
-		musica.reproducir(true)	
+		musica.reproducir(true)
+			
 	}
 	
 
@@ -167,12 +169,14 @@ object juego{
         letrasNoEnPantalla.add(letraString)
     } else {
 		console.println("hola")
-	//	self.sonidoError()
+		console.println("    ")
+		self.sonidoError()
         puntos.restarPuntaje(10)
     }
 }
 
 method sonidoError(){	
+		const error = new Sonido(cancion = "error.mp3") 	
         error.cambiarVolumen(0.3)
         error.reproducir(false)    
 }

@@ -71,7 +71,7 @@ class Dificultad{
          keyboard.enter().onPressDo({juego.rendirse()})
          musica.reproducir(true)
          musica.cambiarVolumen(0.2)
-         juego.configurarTeclado()
+         
 
          
 
